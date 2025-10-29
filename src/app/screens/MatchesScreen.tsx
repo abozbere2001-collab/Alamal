@@ -93,23 +93,14 @@ const FixturesList = React.memo((props: {
         );
     }
     
-    if (!props.hasAnyFavorites) {
-        return (
-            <div className="flex flex-col items-center justify-center text-center text-muted-foreground h-64 p-4">
-                <p className="font-bold text-lg">لم تقم بإضافة أي مفضلات</p>
-                <p className="text-sm">أضف فرقًا أو بطولات لترى مبارياتها هنا.</p>
-                 <Button className="mt-4" onClick={() => props.navigate('AllCompetitions')}>استكشف البطولات</Button>
-            </div>
-        );
-    }
-    
-    const noMatches = props.fixtures.length === 0;
-
-    if (noMatches) {
-        const message = "لا توجد مباريات لمفضلاتك هذا اليوم.";
+    if (props.fixtures.length === 0) {
+        const message = props.hasAnyFavorites 
+            ? "لا توجد مباريات لمفضلاتك هذا اليوم."
+            : "لا توجد مباريات شائعة لهذا اليوم.";
         return (
             <div className="flex flex-col items-center justify-center text-center text-muted-foreground h-64 p-4">
                 <p>{message}</p>
+                {props.hasAnyFavorites || <Button className="mt-4" onClick={() => props.navigate('AllCompetitions')}>استكشف البطولات</Button>}
             </div>
         );
     }
@@ -177,7 +168,7 @@ const getDayLabel = (date: Date) => {
     if (isToday(date)) return "اليوم";
     if (isYesterday(date)) return "الأمس";
     if (isTomorrow(date)) return "غداً";
-    return format(date, "EEE", { locale: ar });
+    return format(date, "EEEE", { locale: ar });
 };
 
 const DateScroller = ({ selectedDateKey, onDateSelect }: {selectedDateKey: string, onDateSelect: (dateKey: string) => void}) => {
@@ -204,60 +195,66 @@ const DateScroller = ({ selectedDateKey, onDateSelect }: {selectedDateKey: strin
             scroller.scrollTo({ left: scroller.scrollLeft + scrollOffset, behavior: 'smooth' });
         }
     }, [selectedDateKey]);
+    
+    const selectedDayLabel = getDayLabel(new Date(selectedDateKey));
 
     return (
-        <div className="relative bg-card py-2 border-x border-b rounded-b-lg shadow-md flex items-center justify-center">
-            <Button 
-                variant="ghost" 
-                size="icon"
-                className="h-8 w-8 z-10"
-                onClick={() => onDateSelect(formatDateKey(subDays(new Date(selectedDateKey), 1)))}
-            >
-                <ChevronLeft className="h-5 w-5" />
-            </Button>
-            <ScrollArea ref={scrollerRef} className="w-full whitespace-nowrap mx-1">
-                <div className="flex flex-row-reverse justify-start">
-                    {dates.map(date => {
-                        const dateKey = formatDateKey(date);
-                        const isSelected = dateKey === selectedDateKey;
+        <div className="relative bg-card py-2 border-x border-b rounded-b-lg shadow-md flex flex-col">
+            <div className="font-bold text-center text-sm text-primary mb-1 h-5">
+                {selectedDayLabel}
+            </div>
+            <div className="flex items-center justify-center">
+                <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className="h-8 w-8 z-10"
+                    onClick={() => onDateSelect(formatDateKey(subDays(new Date(selectedDateKey), 1)))}
+                >
+                    <ChevronLeft className="h-5 w-5" />
+                </Button>
+                <ScrollArea ref={scrollerRef} className="w-full whitespace-nowrap mx-1">
+                    <div className="flex flex-row-reverse justify-start">
+                        {dates.map(date => {
+                            const dateKey = formatDateKey(date);
+                            const isSelected = dateKey === selectedDateKey;
 
-                        return (
-                            <button
-                                key={dateKey}
-                                ref={isSelected ? selectedButtonRef : null}
-                                className={cn(
-                                    "relative flex flex-col items-center justify-center h-auto py-1 px-2 min-w-[40px] rounded-lg transition-colors ml-2",
-                                    "text-foreground/80 hover:text-primary",
-                                    isSelected && "text-primary"
-                                )}
-                                onClick={() => onDateSelect(dateKey)}
-                                data-state={isSelected ? 'active' : 'inactive'}
-                            >
-                                <span className="text-[10px] font-normal">{getDayLabel(date)}</span>
-                                <span className="font-semibold text-sm">{format(date, 'd')}</span>
-                                {isSelected && (
-                                <span className="absolute bottom-0 h-0.5 w-3 rounded-full bg-primary transition-transform" />
-                                )}
-                            </button>
-                        )
-                    })}
-                </div>
-                <ScrollBar orientation="horizontal" className="h-0" />
-            </ScrollArea>
-             <Button 
-                variant="ghost" 
-                size="icon"
-                className="h-8 w-8 z-10"
-                onClick={() => onDateSelect(formatDateKey(addDays(new Date(selectedDateKey), 1)))}
-            >
-                <ChevronRight className="h-5 w-5" />
-            </Button>
+                            return (
+                                <button
+                                    key={dateKey}
+                                    ref={isSelected ? selectedButtonRef : null}
+                                    className={cn(
+                                        "relative flex flex-col items-center justify-center h-auto py-1 px-2 min-w-[40px] rounded-lg transition-colors ml-2",
+                                        "text-foreground/80 hover:text-primary",
+                                        isSelected && "text-primary"
+                                    )}
+                                    onClick={() => onDateSelect(dateKey)}
+                                    data-state={isSelected ? 'active' : 'inactive'}
+                                >
+                                    <span className="font-semibold text-sm">{format(date, 'd')}</span>
+                                    {isSelected && (
+                                    <span className="absolute bottom-0 h-0.5 w-3 rounded-full bg-primary transition-transform" />
+                                    )}
+                                </button>
+                            )
+                        })}
+                    </div>
+                    <ScrollBar orientation="horizontal" className="h-0" />
+                </ScrollArea>
+                 <Button 
+                    variant="ghost" 
+                    size="icon"
+                    className="h-8 w-8 z-10"
+                    onClick={() => onDateSelect(formatDateKey(addDays(new Date(selectedDateKey), 1)))}
+                >
+                    <ChevronRight className="h-5 w-5" />
+                </Button>
+            </div>
         </div>
     );
 }
 
 // Main Screen Component
-export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorites, customNames, setFavorites, onCustomNameChange }: ScreenProps & { isVisible: boolean, setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>, onCustomNameChange: () => Promise<void> }) {
+export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorites, customNames, setFavorites, onCustomNameChange }: ScreenProps & { isVisible: boolean, favorites: Partial<Favorites>, setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>, onCustomNameChange: () => Promise<void> }) {
   const { user } = useAuth();
   const { db, isAdmin } = useAdmin();
   const { toast } = useToast();
@@ -488,3 +485,5 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
     </div>
   );
 }
+
+    
