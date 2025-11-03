@@ -1,24 +1,31 @@
-
 {
-    "name": "نبض الملاعب",
-    "short_name": "نبض الملاعب",
-    "description": "عالم كرة القدم بين يديك",
-    "start_url": ".",
-    "scope": ".",
-    "display": "standalone",
-    "background_color": "#000000",
-    "theme_color": "#000000",
-    "orientation": "portrait",
-    "icons": [
-      {
-        "src": "/Alamal/icon-192x192.png",
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-        "src": "/Alamal/icon-512x512.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ]
+  "name": "نبض الملاعب",
+  "short_name": "نبض الملاعب",
+  "description": "عالم كرة القدم بين يديك",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://picsum.photos/seed/1/192/192",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://picsum.photos/seed/2/512/512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://picsum.photos/seed/3/512/512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }

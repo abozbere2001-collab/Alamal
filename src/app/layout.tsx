@@ -34,8 +34,8 @@ export default function RootLayout({
           <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
           <meta name="theme-color" content="#000000" />
           <link rel="manifest" href="/Alamal/manifest.json" />
-          <link rel="icon" href="/Alamal/icon-192x192.png" />
-          <link rel="apple-touch-icon" href="/Alamal/icon-192x192.png" />
+          <link rel="icon" href="https://picsum.photos/seed/1/192/192" />
+          <link rel="apple-touch-icon" href="https://picsum.photos/seed/1/192/192" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider
