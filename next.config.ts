@@ -5,12 +5,10 @@ import createNextPwa from 'next-pwa';
 const repoName = 'Alamal';
 const isProd = process.env.NODE_ENV === 'production';
 
-const pwaConfig = createNextPwa({
+const withPWA = createNextPwa({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  display: 'standalone',
-  scope: `/${repoName}`,
 });
 
 const nextConfig: NextConfig = {
@@ -39,4 +37,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default pwaConfig(nextConfig);
+export default withPWA(nextConfig);
