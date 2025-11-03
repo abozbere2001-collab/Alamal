@@ -2,9 +2,13 @@
 import type {NextConfig} from 'next';
 import withPWA from 'next-pwa';
 
+const repoName = 'Alamal';
+
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
+  basePath: `/${repoName}`,
+  assetPrefix: `/${repoName}/`,
   images: {
     unoptimized: true,
   },
