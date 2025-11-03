@@ -7,7 +7,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: isProd ? 'export' : undefined,
+  output: 'export',
   basePath: isProd ? `/${repoName}` : '',
   assetPrefix: isProd ? `/${repoName}/` : '',
   images: {
@@ -36,13 +36,10 @@ const pwaConfig = {
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: false, 
+  disable: process.env.NODE_ENV === 'development',
 };
 
-// Apply PWA wrapper only in production
+// Apply PWA wrapper
 const configWithPwa = withPWA(pwaConfig)(nextConfig);
 
-// Export the correct config based on the environment
-const config = isProd ? configWithPwa : nextConfig;
-
-export default config;
+export default configWithPwa;
