@@ -9,7 +9,6 @@ const pwaConfig = {
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: !isProd,
   manifest: {
     name: 'نبض الملاعب',
     short_name: 'نبض الملاعب',
