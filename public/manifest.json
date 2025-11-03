@@ -4,9 +4,8 @@
   "description": "عالم كرة القدم بين يديك",
   "start_url": "/Alamal/",
   "display": "standalone",
-  "scope": "/Alamal/",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#29ABE2",
   "icons": [
     {
       "src": "/Alamal/icons/icon-192x192.png",

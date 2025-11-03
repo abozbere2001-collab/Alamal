@@ -9,7 +9,7 @@ import { FirebaseClientProvider } from '@/firebase';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: '/manifest.json',
+  manifest: '/Alamal/manifest.json',
 };
 
 const cairo = Cairo({
