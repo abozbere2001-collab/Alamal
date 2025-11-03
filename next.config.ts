@@ -5,6 +5,17 @@ import withPWA from 'next-pwa';
 const repoName = 'Alamal';
 const isProd = process.env.NODE_ENV === 'production';
 
+const pwaConfig = {
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: !isProd,
+  pwa: {
+    display: 'standalone',
+    scope: isProd ? `/${repoName}/` : '/',
+  }
+};
+
 const nextConfig: NextConfig = {
   /* config options here */
   output: 'export',
@@ -32,18 +43,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-const pwaConfig = withPWA({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  pwa: {
-    display: 'standalone',
-    scope: isProd ? `/${repoName}/` : '/',
-  }
-});
-
-// Apply PWA wrapper
-const configWithPwa = pwaConfig(nextConfig);
-
-export default configWithPwa;
+export default withPWA(pwaConfig)(nextConfig);
