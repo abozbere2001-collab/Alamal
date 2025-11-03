@@ -77,7 +77,18 @@
   * {
     @apply border-border;
   }
+  html, body, #__next {
+    @apply h-full min-h-full m-0 p-0 bg-background;
+    overscroll-behavior: none;
+  }
   body {
     @apply bg-background text-foreground/80;
+  }
+  main {
+    height: 100vh;
+    overflow: hidden;
+  }
+  body::-webkit-scrollbar {
+    display: none;
   }
 }
