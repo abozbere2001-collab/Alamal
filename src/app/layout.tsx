@@ -33,8 +33,9 @@ export default function RootLayout({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
           <meta name="theme-color" content="#000000" />
-          <link rel="icon" href="/Alamal/icon-192x192.png" />
-          <link rel="apple-touch-icon" href="/Alamal/icon-192x192.png" />
+          <link rel="manifest" href="/Alamal/manifest.json" />
+          <link rel="icon" href="/Alamal/icon.svg" />
+          <link rel="apple-touch-icon" href="/Alamal/icon.svg" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider
