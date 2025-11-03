@@ -29,6 +29,13 @@ import { POPULAR_LEAGUES, POPULAR_TEAMS } from '@/lib/popular-data';
 const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
 const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 // --- TYPE DEFINITIONS ---
 interface FullLeague {
   league: { id: number; name: string; type: string; logo: string; };
@@ -170,7 +177,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
                 },
             });
             if (!res.ok) throw new Error("Failed to fetch leagues");
-            const data = await res.json();
+            const data = await safeJson(res);
             const leaguesData: FullLeague[] = data.response || [];
             
             setAllLeagues(leaguesData);
@@ -249,7 +256,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
             });
             if(!res.ok) throw new Error("Failed to fetch teams");
 
-            const data = await res.json();
+            const data = await safeJson(res);
             const nationalTeamsData = (data.response || []).filter((r: { team: Team }) => r.team.national).map((r: { team: Team}) => r.team);
             setNationalTeams(nationalTeamsData);
             setCachedData(TEAMS_CACHE_KEY, nationalTeamsData);

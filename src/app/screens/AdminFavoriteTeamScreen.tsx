@@ -16,6 +16,14 @@ import { Card, CardContent } from '@/components/ui/card';
 const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
 const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
+
 // --- Main Screen Component ---
 export function AdminFavoriteTeamScreen({ navigate, goBack, canGoBack, teamId, teamName }: ScreenProps & { teamId: number; teamName: string; }) {
     const [allFixtures, setAllFixtures] = useState<Fixture[]>([]);
@@ -41,7 +49,7 @@ export function AdminFavoriteTeamScreen({ navigate, goBack, canGoBack, teamId, t
                 });
                 if (!res.ok) throw new Error(`API fetch failed with status: ${res.status}`);
                 
-                const data = await res.json();
+                const data = await safeJson(res);
                 const fixtures: Fixture[] = data.response || [];
                 // Sort all fixtures chronologically
                 fixtures.sort((a, b) => a.fixture.timestamp - b.fixture.timestamp);

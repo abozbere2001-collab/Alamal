@@ -25,6 +25,13 @@ import { errorEmitter } from '@/firebase/error-emitter';
 const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
 const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 interface AddCompetitionDialogProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
@@ -51,7 +58,7 @@ export function AddCompetitionDialog({ isOpen, onOpenChange }: AddCompetitionDia
         },
       });
       if (!res.ok) throw new Error('Failed to fetch from API');
-      const data = await res.json();
+      const data = await safeJson(res);
       
       if (data.response && data.response.length > 0) {
         const { league, country } = data.response[0];

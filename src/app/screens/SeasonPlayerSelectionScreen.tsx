@@ -20,6 +20,12 @@ import { FootballIcon } from '@/components/icons/FootballIcon';
 import { FixedSizeList as List } from 'react-window';
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
 
 interface SeasonPlayerSelectionScreenProps extends ScreenProps {
     leagueId: number;
@@ -83,7 +89,7 @@ export function SeasonPlayerSelectionScreen({ navigate, goBack, canGoBack, heade
             try {
                 while (currentPage <= totalPages) {
                     const res = await fetch(`/api/football/players?team=${teamId}&season=${CURRENT_SEASON}&page=${currentPage}`);
-                    const data = await res.json();
+                    const data = await safeJson(res);
                     
                     if (data.response) {
                         data.response.forEach((playerResponse: PlayerResponse) => {

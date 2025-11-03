@@ -17,6 +17,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CURRENT_SEASON } from '@/lib/constants';
 import { Separator } from '@/components/ui/separator';
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 // --- TYPE DEFINITIONS ---
 interface PlayerInfo extends Player {
     birth: { date: string; place: string; country: string; };
@@ -184,7 +191,7 @@ export function PlayerDetailScreen({ navigate, goBack, canGoBack, playerId }: Sc
             // Fetch main player data for the current season
             const playerRes = await fetch(`/api/football/players?id=${playerId}&season=${CURRENT_SEASON}`);
             if (playerRes.ok) {
-                const data = await playerRes.json();
+                const data = await safeJson(playerRes);
                 if (data.response?.[0]) {
                     const playerInfo = data.response[0];
                     setPlayerData(playerInfo);
@@ -217,7 +224,7 @@ export function PlayerDetailScreen({ navigate, goBack, canGoBack, playerId }: Sc
             // Fetch transfer data for career history
             const transferRes = await fetch(`/api/football/transfers?player=${playerId}`);
             if (transferRes.ok) {
-                 const data = await transferRes.json();
+                 const data = await safeJson(transferRes);
                  setTransfers(data.response || []);
             }
 

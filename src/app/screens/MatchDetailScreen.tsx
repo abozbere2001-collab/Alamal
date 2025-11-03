@@ -29,6 +29,13 @@ import { Button } from '@/components/ui/button';
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 import { isMatchLive } from '@/lib/matchStatus';
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 // This is a temporary fallback. In a real app, you would use a proper i18n library.
 const useTranslation = () => ({ t: (key: string) => key.replace(/_/g, ' ') });
 
@@ -651,7 +658,7 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
             try {
                 const response = await fetch(`/api/football/fixtures?id=${fixtureId}`, { signal });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
+                const data = await safeJson(response);
 
                 if (signal.aborted) return;
                 setFixture(data.response[0] || null);
@@ -688,7 +695,7 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
                             const res = await fetch(`/api/football/players?team=${teamId}&season=${season}&page=${currentPage}`, { signal });
                             if (signal.aborted) return [];
                             if (res.ok) {
-                                const data = await res.json();
+                                const data = await safeJson(res);
                                 if (data.response) {
                                     allPlayersForTeam.push(...data.response);
                                 }
@@ -714,9 +721,9 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
 
                 if (signal.aborted) return;
                 
-                const lineupsData = await lineupsRes.json();
-                const eventsData = await eventsRes.json();
-                const statsData = await statsRes.json();
+                const lineupsData = await safeJson(lineupsRes);
+                const eventsData = await safeJson(eventsRes);
+                const statsData = await safeJson(statsRes);
 
                 if (signal.aborted) return;
                 
@@ -746,7 +753,7 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
             try {
                 const response = await fetch(`/api/football/standings?league=${fixture.league.id}&season=${fixture.league.season}`, { signal });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
+                const data = await safeJson(response);
                 if (signal.aborted) return;
                 setStandings(data.response[0]?.league?.standings?.[0] || null);
             } catch (error) {

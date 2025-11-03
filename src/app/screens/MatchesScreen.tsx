@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
@@ -25,6 +26,14 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
 const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 
 interface GroupedFixtures {
     [leagueName: string]: {
@@ -320,7 +329,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
              });
             if (!res.ok) throw new Error(`API fetch failed with status ${res.status}`);
             
-            const data = await res.json();
+            const data = await safeJson(res);
             if (abortSignal.aborted) return;
             
             const allFixturesToday: FixtureType[] = data.response || [];
@@ -366,7 +375,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
             });
             if (!res.ok) return;
 
-            const data = await res.json();
+            const data = await safeJson(res);
             if (abortSignal.aborted || !data.response) return;
 
             const updatedFixturesMap = new Map(data.response.map((f: FixtureType) => [f.fixture.id, f]));

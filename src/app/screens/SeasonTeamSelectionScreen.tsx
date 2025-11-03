@@ -19,6 +19,14 @@ import { errorEmitter } from '@/firebase/error-emitter';
 import { FixedSizeList as List } from 'react-window';
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
+
 interface SeasonTeamSelectionScreenProps extends ScreenProps {
     leagueId: number;
     leagueName: string;
@@ -70,7 +78,7 @@ export function SeasonTeamSelectionScreen({ navigate, goBack, canGoBack, headerA
         const fetchTeams = async () => {
             try {
                 const res = await fetch(`/api/football/teams?league=${leagueId}&season=${CURRENT_SEASON}`);
-                const data = await res.json();
+                const data = await safeJson(res);
                 const rawTeams = data.response || [];
                 const translatedTeams = rawTeams.map((teamData: { team: Team }) => ({
                     ...teamData,
