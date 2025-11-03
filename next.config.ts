@@ -1,15 +1,8 @@
 
 import type {NextConfig} from 'next';
-import withPWA from 'next-pwa';
 
 const repoName = 'Alamal';
 const isProd = process.env.NODE_ENV === 'production';
-
-const pwaConfig = {
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-};
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -37,4 +30,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPWA(pwaConfig)(nextConfig);
+export default nextConfig;
