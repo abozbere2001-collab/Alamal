@@ -10,10 +10,8 @@ const pwaConfig = {
   register: true,
   skipWaiting: true,
   disable: !isProd,
-  pwa: {
-    display: 'standalone',
-    scope: isProd ? `/${repoName}/` : '/',
-  }
+  display: 'standalone',
+  scope: isProd ? `/${repoName}/` : '/',
 };
 
 const nextConfig: NextConfig = {
