@@ -3,12 +3,13 @@ import type {NextConfig} from 'next';
 import withPWA from 'next-pwa';
 
 const repoName = 'Alamal';
+const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'export',
-  basePath: `/${repoName}`,
-  assetPrefix: `/${repoName}/`,
+  output: isProd ? 'export' : undefined,
+  basePath: isProd ? `/${repoName}` : '',
+  assetPrefix: isProd ? `/${repoName}/` : '',
   images: {
     unoptimized: true,
   },
@@ -38,7 +39,7 @@ const pwaConfig = {
 };
 
 // Only wrap with PWA in production
-const config = process.env.NODE_ENV === 'production' 
+const config = isProd 
   ? withPWA(pwaConfig)(nextConfig) 
   : nextConfig;
 
