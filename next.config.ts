@@ -1,8 +1,6 @@
 
 import type {NextConfig} from 'next';
 import withPWA from 'next-pwa';
-import fs from 'fs';
-import path from 'path';
 
 const repoName = 'Alamal';
 const isProd = process.env.NODE_ENV === 'production';
@@ -41,9 +39,10 @@ const pwaConfig = {
   disable: false, 
 };
 
-const config = isProd 
-  ? withPWA(pwaConfig)(nextConfig) 
-  : nextConfig;
+// Apply PWA wrapper only in production
+const configWithPwa = withPWA(pwaConfig)(nextConfig);
 
+// Export the correct config based on the environment
+const config = isProd ? configWithPwa : nextConfig;
 
 export default config;
