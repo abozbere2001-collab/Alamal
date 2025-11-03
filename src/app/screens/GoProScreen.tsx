@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Check, Gem, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
-import { purchaseSubscription } from '@/lib/revenuecat-client';
 import { useAuth } from '@/firebase';
 
 const proFeatures = [
@@ -45,18 +44,18 @@ export function GoProScreen({ navigate, goBack, canGoBack }: ScreenProps) {
   const handleSubscribe = async (planIdentifier: string, planName: string) => {
     setLoadingPlan(planIdentifier);
     try {
-        const isSuccess = await purchaseSubscription(planIdentifier);
+        // Temporarily simulate a successful purchase as the package is removed
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        const isSuccess = true;
 
         if (isSuccess) {
-            // In a real app, this would be handled by a backend webhook.
-            // For prototyping, we set it directly after the mock purchase succeeds.
             await setProUser(true);
             
             toast({
                 title: "🎉 تمت الترقية بنجاح!",
                 description: `أصبحت الآن من مستخدمي نبض الملاعب برو.`,
             });
-            goBack(); // Go back to settings screen
+            goBack();
         } else {
              toast({
                 variant: 'destructive',
