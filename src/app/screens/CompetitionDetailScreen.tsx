@@ -46,6 +46,16 @@ import { format, isToday } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { POPULAR_LEAGUES, POPULAR_TEAMS } from '@/lib/popular-data';
 
+const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
+const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
+
 type RenameType = 'league' | 'team' | 'player' | 'continent' | 'country' | 'coach' | 'status' | 'crown';
 interface RenameState {
   id: string | number;
@@ -129,19 +139,23 @@ export function CompetitionDetailScreen({ navigate, goBack, canGoBack, title: in
         setLoading(true);
         
         try {
+            const headers = {
+                'x-rapidapi-host': API_FOOTBALL_HOST,
+                'x-rapidapi-key': API_KEY || '',
+            };
             const [standingsRes, scorersRes, fixturesRes, teamsRes] = await Promise.all([
-                fetch(`/api/football/standings?league=${leagueId}&season=${season}`),
-                fetch(`/api/football/players/topscorers?league=${leagueId}&season=${season}`),
-                fetch(`/api/football/fixtures?league=${leagueId}&season=${season}`),
-                fetch(`/api/football/teams?league=${leagueId}&season=${season}`)
+                fetch(`https://${API_FOOTBALL_HOST}/standings?league=${leagueId}&season=${season}`, { headers }),
+                fetch(`https://${API_FOOTBALL_HOST}/players/topscorers?league=${leagueId}&season=${season}`, { headers }),
+                fetch(`https://${API_FOOTBALL_HOST}/fixtures?league=${leagueId}&season=${season}`, { headers }),
+                fetch(`https://${API_FOOTBALL_HOST}/teams?league=${leagueId}&season=${season}`, { headers })
             ]);
 
             if (!isMounted) return;
 
-            const standingsData = await standingsRes.json();
-            const scorersData = await scorersRes.json();
-            const fixturesData = await fixturesRes.json();
-            const teamsData = await teamsRes.json();
+            const standingsData = await safeJson(standingsRes);
+            const scorersData = await safeJson(scorersRes);
+            const fixturesData = await safeJson(fixturesRes);
+            const teamsData = await safeJson(teamsRes);
 
             const newStandings = standingsData.response[0]?.league?.standings[0] || [];
             const newTopScorers = scorersData.response || [];
@@ -627,13 +641,3 @@ const getDisplayName = useCallback((type: 'team' | 'player' | 'league', id: numb
     </div>
   );
 }
-
-    
-
-    
-
-
-
-
-    
-

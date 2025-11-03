@@ -29,6 +29,9 @@ import { Button } from '@/components/ui/button';
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 import { isMatchLive } from '@/lib/matchStatus';
 
+const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
+const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+
 async function safeJson(response: Response) {
     if (response.headers.get('content-type')?.includes('application/json')) {
         return await response.json();
@@ -651,12 +654,16 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
+        const headers = {
+            'x-rapidapi-host': API_FOOTBALL_HOST,
+            'x-rapidapi-key': API_KEY || '',
+        };
 
         const fetchInitialFixture = async () => {
             if (!fixtureId) return;
             setLoadingFixture(true);
             try {
-                const response = await fetch(`/api/football/fixtures?id=${fixtureId}`, { signal });
+                const response = await fetch(`https://${API_FOOTBALL_HOST}/fixtures?id=${fixtureId}`, { signal, headers });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await safeJson(response);
 
@@ -685,6 +692,11 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
             try {
                 await fetchAllCustomNames();
 
+                const headers = {
+                    'x-rapidapi-host': API_FOOTBALL_HOST,
+                    'x-rapidapi-key': API_KEY || '',
+                };
+
                 const fetchTeamPlayers = async (teamId: number, season: number) => {
                     const allPlayersForTeam: { player: PlayerType, statistics: any[] }[] = [];
                     let currentPage = 1;
@@ -692,7 +704,7 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
 
                     while (currentPage <= totalPages) {
                         try {
-                            const res = await fetch(`/api/football/players?team=${teamId}&season=${season}&page=${currentPage}`, { signal });
+                            const res = await fetch(`https://${API_FOOTBALL_HOST}/players?team=${teamId}&season=${season}&page=${currentPage}`, { signal, headers });
                             if (signal.aborted) return [];
                             if (res.ok) {
                                 const data = await safeJson(res);
@@ -712,9 +724,9 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
                 };
                 
                 const [lineupsRes, eventsRes, statsRes, homePlayersData, awayPlayersData] = await Promise.all([
-                    fetch(`/api/football/lineups?fixture=${fixture.fixture.id}`, { signal }),
-                    fetch(`/api/football/events?fixture=${fixture.fixture.id}`, { signal }),
-                    fetch(`/api/football/statistics?fixture=${fixture.fixture.id}`, { signal }),
+                    fetch(`https://${API_FOOTBALL_HOST}/lineups?fixture=${fixture.fixture.id}`, { signal, headers }),
+                    fetch(`https://${API_FOOTBALL_HOST}/events?fixture=${fixture.fixture.id}`, { signal, headers }),
+                    fetch(`https://${API_FOOTBALL_HOST}/fixtures/statistics?fixture=${fixture.fixture.id}`, { signal, headers }),
                     fetchTeamPlayers(fixture.teams.home.id, fixture.league.season),
                     fetchTeamPlayers(fixture.teams.away.id, fixture.league.season),
                 ]);
@@ -751,7 +763,11 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
         const fetchStandings = async () => {
             setLoadingStandings(true);
             try {
-                const response = await fetch(`/api/football/standings?league=${fixture.league.id}&season=${fixture.league.season}`, { signal });
+                const headers = {
+                    'x-rapidapi-host': API_FOOTBALL_HOST,
+                    'x-rapidapi-key': API_KEY || '',
+                };
+                const response = await fetch(`https://${API_FOOTBALL_HOST}/standings?league=${fixture.league.id}&season=${fixture.league.season}`, { signal, headers });
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await safeJson(response);
                 if (signal.aborted) return;
@@ -936,5 +952,3 @@ export default function MatchDetailScreen({ goBack, canGoBack, fixtureId, naviga
       </div>
     );
 }
-
-    

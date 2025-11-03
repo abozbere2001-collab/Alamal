@@ -32,6 +32,15 @@ import {Skeleton} from "@/components/ui/skeleton";
 import { setLocalFavorites } from '@/lib/local-favorites';
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 
+const API_FOOTBALL_HOST = 'v3.football.api-sports.io';
+const API_KEY = process.env.NEXT_PUBLIC_API_FOOTBALL_KEY;
+
+async function safeJson(response: Response) {
+    if (response.headers.get('content-type')?.includes('application/json')) {
+        return await response.json();
+    }
+    return { response: [] }; // Return a default structure for non-JSON responses
+}
 
 const CrownedTeamScroller = ({
   crownedTeams,
@@ -102,12 +111,17 @@ const TeamFixturesDisplay = ({ teamId, navigate }: { teamId: number; navigate: S
             };
             setLoading(true);
             try {
-                const url = `/api/football/fixtures?team=${teamId}&season=${CURRENT_SEASON}`;
-                const res = await fetch(url);
+                const url = `https://${API_FOOTBALL_HOST}/fixtures?team=${teamId}&season=${CURRENT_SEASON}`;
+                const res = await fetch(url, {
+                     headers: {
+                        'x-rapidapi-host': API_FOOTBALL_HOST,
+                        'x-rapidapi-key': API_KEY || '',
+                    },
+                });
                 if (!isMounted) return;
                 if (!res.ok) throw new Error(`API fetch failed with status: ${res.status}`);
                 
-                const data = await res.json();
+                const data = await safeJson(res);
                 const fixtures: Fixture[] = data.response || [];
                 fixtures.sort((a, b) => a.fixture.timestamp - b.fixture.timestamp);
                 
