@@ -9,7 +9,7 @@ import { FirebaseClientProvider } from '@/firebase';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: 'https://abozbere2001-collab.github.io/Alamal/manifest.json',
+  manifest: '/manifest.json',
 };
 
 const cairo = Cairo({
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
         <head>
-          <link rel="manifest" href="https://abozbere2001-collab.github.io/Alamal/manifest.json" />
+          <link rel="manifest" href="/manifest.json" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider

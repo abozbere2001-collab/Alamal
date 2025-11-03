@@ -36,6 +36,9 @@ const pwaConfig = {
   dest: 'public',
   register: true,
   skipWaiting: true,
+  disable: false, // Make sure PWA is enabled
+  // We are using a static manifest, so we don't need to generate one
+  // manifest: false, 
 };
 
 // Only wrap with PWA in production
