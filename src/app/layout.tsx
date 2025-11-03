@@ -31,11 +31,13 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+          <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
           <meta name="theme-color" content="#000000" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
           <link rel="manifest" href="/Alamal/manifest.json" />
-          <link rel="icon" href="https://picsum.photos/seed/1/192/192" />
-          <link rel="apple-touch-icon" href="https://picsum.photos/seed/1/192/192" />
+          <link rel="icon" href="/Alamal/icon-192x192.png" sizes="192x192" />
+          <link rel="apple-touch-icon" href="/Alamal/icon-192x192.png" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider
