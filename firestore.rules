@@ -156,6 +156,18 @@ service cloud.firestore {
       allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
       allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
+    
+    match /predictionFixtures/{fixtureId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+
+      match /userPredictions/{userId} {
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isAdmin();
+        allow create, update: if isOwner(userId);
+        allow delete: if false;
+      }
+    }
   }
 
   // Helper functions
@@ -171,3 +183,5 @@ service cloud.firestore {
     return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
   }
 }
+
+    
