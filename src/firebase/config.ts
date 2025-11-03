@@ -6,7 +6,7 @@ import { getFirestore, type Firestore } from 'firebase/firestore';
 // Configuration object for Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDKQK4mfCGlSCwJS7oOdMhJa0SIJAv3nXM",
-  authDomain: "nabd-d71ab.firebaseapp.com,6000-firebase-goal-stack-finly9-1761470181531.cluster-2a24trvdezeggvmpy7fccga2ee.cloudworkstations.dev",
+  authDomain: "nabd-d71ab.firebaseapp.com",
   projectId: "nabd-d71ab",
   storageBucket: "nabd-d71ab.firebasestorage.app",
   messagingSenderId: "529236633123",
