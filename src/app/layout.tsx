@@ -26,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
         <head>
-          {/* The manifest link is now handled by next-pwa */}
+          <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+          <meta name="theme-color" content="#000000" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider

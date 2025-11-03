@@ -48,7 +48,6 @@
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
     "next-pwa": "^5.6.0",
-    "next-themes": "^0.3.0",
     "patch-package": "^8.0.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -70,5 +69,12 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pwa": {
+    "start_url": "/Alamal",
+    "scope": "/Alamal",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000"
   }
 }
