@@ -32,14 +32,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-const pwaConfig = {
+const pwaConfig = withPWA({
   dest: 'public',
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
-};
+  pwa: {
+    display: 'standalone',
+    scope: isProd ? `/${repoName}/` : '/',
+  }
+});
 
 // Apply PWA wrapper
-const configWithPwa = withPWA(pwaConfig)(nextConfig);
+const configWithPwa = pwaConfig(nextConfig);
 
 export default configWithPwa;
