@@ -118,7 +118,7 @@ ItemRow.displayName = 'ItemRow';
 
 
 // --- Main Component ---
-export function SearchSheet({ children, navigate, initialItemType, favorites, customNames, setFavorites: setGlobalFavorites, onCustomNameChange }: { children: React.ReactNode, navigate: ScreenProps['navigate'], initialItemType?: ItemType, favorites: Partial<Favorites>, customNames: any, setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>, onCustomNameChange?: () => void }) {
+export function SearchSheet({ children, navigate, initialItemType, favorites, customNames, setFavorites: setGlobalFavorites, onCustomNameChange }: { children: React.ReactNode, navigate: ScreenProps['navigate'], initialItemType?: ItemType, favorites: Partial<Favorites>, customNames: any, setFavorites: (favorites: Partial<Favorites>) => void, onCustomNameChange?: () => void }) {
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [searchResults, setSearchResults] = useState<SearchableItem[]>([]);
@@ -394,3 +394,5 @@ export function SearchSheet({ children, navigate, initialItemType, favorites, cu
     </Sheet>
   );
 }
+
+    
