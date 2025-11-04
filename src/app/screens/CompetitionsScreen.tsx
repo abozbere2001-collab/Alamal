@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { hardcodedTranslations } from '@/lib/hardcoded-translations';
 
 // --- MAIN SCREEN COMPONENT ---
-export function CompetitionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: Partial<Favorites>) => void}) {
+export function CompetitionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>}) {
     const { user } = useAuth();
     
      const getDisplayName = useCallback((type: 'league' | 'team', id: number, defaultName: string) => {

@@ -202,7 +202,7 @@ const DateScroller = ({ selectedDateKey, onDateSelect }: {selectedDateKey: strin
     );
 }
 
-export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: Partial<Favorites>) => void}) {
+export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>}) {
     const { user } = useAuth();
     const { isAdmin, db, isCheckingAdmin } = useAdmin();
     const { toast } = useToast();
