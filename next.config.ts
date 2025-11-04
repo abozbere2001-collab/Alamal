@@ -34,6 +34,11 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const nextConfig = {
   output: 'export',
+  devIndicators: {
+    allowedDevOrigins: [
+        '*.cloudworkstations.dev',
+    ],
+  },
 };
 
 module.exports = withPWA(nextConfig);
