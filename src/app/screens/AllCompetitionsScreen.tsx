@@ -200,6 +200,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
         allLeagues
             .filter(l => l.league.type.toLowerCase() === 'cup' || l.league.type.toLowerCase() === 'league')
             .forEach(league => {
+                if (!league.country.name) return; // Skip if country name is null
                 const leagueNameLower = league.league.name.toLowerCase();
                 const countryNameLower = league.country.name.toLowerCase();
                 let continent: string;
