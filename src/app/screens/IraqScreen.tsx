@@ -218,7 +218,9 @@ export function IraqScreen({ navigate, goBack, canGoBack, favorites, setFavorite
   
   const crownedTeams = useMemo(() => {
     if (!favorites?.crownedTeams) return [];
-    return Object.values(favorites.crownedTeams).map(team => ({
+    return Object.values(favorites.crownedTeams)
+        .filter((team): team is CrownedTeam => !!team && typeof team === 'object')
+        .map(team => ({
         ...team,
         name: getDisplayName('team', team.teamId, team.name)
     }));
