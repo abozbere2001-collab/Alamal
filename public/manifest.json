@@ -2,11 +2,11 @@
   "name": "نبض الملاعب",
   "short_name": "نبض الملاعب",
   "description": "عالم كرة القدم بين يديك",
-  "start_url": "/Alamal/",
+  "start_url": ".",
   "display": "standalone",
-  "scope": "/Alamal/",
   "background_color": "#000000",
   "theme_color": "#000000",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/Alamal/icons/icon-192x192.png",
