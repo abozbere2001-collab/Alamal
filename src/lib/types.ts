@@ -353,4 +353,5 @@ export interface MatchCustomization {
 
 export interface PredictionMatch {
     fixtureData: Fixture;
+    id?: string;
 }

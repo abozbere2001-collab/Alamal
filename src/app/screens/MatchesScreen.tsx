@@ -31,7 +31,7 @@ async function safeJson(response: Response) {
     if (response.headers.get('content-type')?.includes('application/json')) {
         return await response.json();
     }
-    return { response: [] }; // Return a default structure for non-JSON responses
+    return { response: [] };
 }
 
 
@@ -281,14 +281,15 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
   }, [db, isAdmin]);
 
   const getDisplayName = useCallback((type: 'team' | 'league', id: number, defaultName: string) => {
-    if (!customNames) return defaultName;
+    if (!customNames || !defaultName) return defaultName || '';
     const firestoreMap = type === 'team' ? customNames?.teams : customNames?.leagues;
     const customName = firestoreMap?.get(id);
     if (customName) return customName;
 
     const hardcodedMap = type === 'team' ? hardcodedTranslations.teams : hardcodedTranslations.leagues;
-    const hardcodedName = hardcodedMap[id as any];
-    if(hardcodedName) return hardcodedName;
+    if(hardcodedMap && id in hardcodedMap) {
+        return hardcodedMap[id];
+    }
 
     return defaultName;
 }, [customNames]);
@@ -488,7 +489,3 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
     </div>
   );
 }
-
-
-    
-    

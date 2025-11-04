@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import { SearchSheet } from '@/components/SearchSheet';
 import { ProfileButton } from '../AppContentWrapper';
+import type { Favorites } from '@/lib/types';
 
-export function SettingsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: any) => void}) {
+
+export function SettingsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: Partial<Favorites>) => void}) {
   const { toast } = useToast();
   
   const mainSettingsItems = [
@@ -131,6 +133,3 @@ export function SettingsScreen({ navigate, goBack, canGoBack, favorites, customN
     </div>
   );
 }
-
-    
-    

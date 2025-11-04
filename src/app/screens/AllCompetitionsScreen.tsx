@@ -152,8 +152,10 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
         if (customName) return customName;
         
         const hardcodedKey = `${type}s` as 'leagues' | 'teams' | 'countries' | 'continents';
-        const hardcodedName = hardcodedTranslations[hardcodedKey]?.[id];
-        if (hardcodedName) return hardcodedName;
+        const hardcodedMap = hardcodedTranslations[hardcodedKey];
+        if (hardcodedMap && id in hardcodedMap) {
+            return hardcodedMap[id];
+        }
 
         return defaultName;
     }, [customNames]);
@@ -313,7 +315,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
             } else {
                 if (itemType === 'leagues') {
                     newFavorites.leagues![itemId] = { name: item.name, leagueId: itemId, logo: item.logo, notificationsEnabled: true };
-                } else {
+                } else if (item.hasOwnProperty('national')) {
                     newFavorites.teams![itemId] = { name: (item as Team).name, teamId: itemId, logo: item.logo, type: (item as Team).national ? 'National' : 'Club' };
                 }
             }
@@ -363,7 +365,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
                 
                 if (isCurrentlyCrowned) {
                     delete newFavorites.crownedTeams[teamId];
-                } else {
+                } else if(originalData && 'name' in originalData) {
                     const crownedData = { teamId, name: (originalData as Team).name, logo: (originalData as Team).logo, note: newNote };
                     newFavorites.crownedTeams[teamId] = crownedData;
                 }
@@ -487,17 +489,21 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
                                     )}
                                 </div>
                                 <AccordionContent className="p-1">
-                                    {sortedGroupedCompetitions[continent][country].map(({ league }) => (
-                                        <LeagueHeaderItem
-                                            key={league.id}
-                                            league={{leagueId: league.id, name: getName('league', league.id, league.name), logo: league.logo, countryName: country, countryFlag: sortedGroupedCompetitions[continent][country][0].country.flag}}
-                                            isFavorited={!!favorites?.leagues?.[league.id]}
-                                            onFavoriteToggle={() => handleFavoriteToggle(league, 'leagues')}
-                                            onRename={() => handleOpenRename('league', league.id, getName('league', league.id, league.name), league.name)}
-                                            onClick={() => navigate('CompetitionDetails', { title: getName('league', league.id, league.name), leagueId: league.id, logo: league.logo })}
-                                            isAdmin={isAdmin}
-                                        />
-                                    ))}
+                                    {sortedGroupedCompetitions[continent][country].map(({ league }) => {
+                                        if(!league) return null;
+                                        const leagueData = sortedGroupedCompetitions[continent]?.[country]?.[0];
+                                        return (
+                                            <LeagueHeaderItem
+                                                key={league.id}
+                                                league={{leagueId: league.id, name: getName('league', league.id, league.name), logo: league.logo, countryName: country, countryFlag: leagueData?.country.flag || null}}
+                                                isFavorited={!!favorites?.leagues?.[league.id]}
+                                                onFavoriteToggle={() => handleFavoriteToggle(league, 'leagues')}
+                                                onRename={() => handleOpenRename('league', league.id, getName('league', league.id, league.name), league.name)}
+                                                onClick={() => navigate('CompetitionDetails', { title: getName('league', league.id, league.name), leagueId: league.id, logo: league.logo })}
+                                                isAdmin={isAdmin}
+                                            />
+                                        )
+                                    })}
                                 </AccordionContent>
                              </AccordionItem>
                         ))}
@@ -598,7 +604,3 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
         </div>
     );
 }
-
-
-    
-    

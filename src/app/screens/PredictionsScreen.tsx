@@ -202,7 +202,7 @@ const DateScroller = ({ selectedDateKey, onDateSelect }: {selectedDateKey: strin
     );
 }
 
-export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: any) => void}) {
+export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: Partial<Favorites>) => void}) {
     const { user } = useAuth();
     const { isAdmin, db, isCheckingAdmin } = useAdmin();
     const { toast } = useToast();
@@ -236,7 +236,7 @@ export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, cust
             const matches = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...(doc.data() as PredictionMatch),
-            })).filter(m => m && m.fixtureData && m.fixtureData.fixture);
+            })).filter((m): m is PredictionMatch & { id: string } => !!(m && m.fixtureData && m.fixtureData.fixture));
             setPinnedMatches(matches);
             setLoadingMatches(false);
         }, (err) => {
@@ -552,7 +552,3 @@ export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, cust
         </div>
     );
 }
-
-
-    
-    

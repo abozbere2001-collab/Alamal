@@ -101,7 +101,7 @@ const CurrentTeamStats = ({ statistics, navigate }: { statistics: PlayerSeasonSt
             <CardContent>
                  <div 
                     className="flex items-center gap-3 mb-6 p-3 rounded-lg bg-card-foreground/5 cursor-pointer"
-                    onClick={() => navigate('CompetitionDetails', { leagueId: currentLeagueStats.league.id })}
+                    onClick={() => navigate('CompetitionDetails', { leagueId: currentLeagueStats.league.id, title: currentLeagueStats.league.name, logo: currentLeagueStats.league.logo })}
                 >
                     <Avatar className="h-12 w-12"><AvatarImage src={currentLeagueStats.team.logo} /></Avatar>
                     <div>

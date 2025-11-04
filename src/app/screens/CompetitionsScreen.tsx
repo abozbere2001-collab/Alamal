@@ -21,15 +21,16 @@ export function CompetitionsScreen({ navigate, goBack, canGoBack, favorites, cus
     const { user } = useAuth();
     
      const getDisplayName = useCallback((type: 'league' | 'team', id: number, defaultName: string) => {
-        if (!customNames) return defaultName;
+        if (!customNames || !defaultName) return defaultName || '';
         const key = `${type}s` as 'leagues' | 'teams';
         const map = customNames[key] as Map<number, string>;
         const customName = map?.get(id);
         if (customName) return customName;
 
         const hardcodedMap = hardcodedTranslations[key];
-        const hardcodedName = hardcodedMap[id as any];
-        if (hardcodedName) return hardcodedName;
+        if(hardcodedMap && id in hardcodedMap) {
+            return hardcodedMap[id];
+        }
 
         return defaultName;
     }, [customNames]);

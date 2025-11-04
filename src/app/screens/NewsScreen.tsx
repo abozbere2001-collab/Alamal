@@ -31,8 +31,9 @@ import { FirestorePermissionError } from '@/firebase/errors';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { SearchSheet } from '@/components/SearchSheet';
 import { ProfileButton } from '../AppContentWrapper';
+import type { Favorites } from '@/lib/types';
 
-export function NewsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: any) => void}) {
+export function NewsScreen({ navigate, goBack, canGoBack, favorites, customNames, setFavorites }: ScreenProps & {setFavorites: (favorites: Partial<Favorites>) => void}) {
   const { isAdmin } = useAdmin();
   const { db } = useFirestore();
   const [news, setNews] = useState<NewsArticle[]>([]);
@@ -178,7 +179,3 @@ export function NewsScreen({ navigate, goBack, canGoBack, favorites, customNames
     </div>
   );
 }
-
-
-    
-    
