@@ -222,8 +222,6 @@ export function AppContentWrapper({ showHints, onHintsDismissed }: { showHints: 
             setLocalFavorites(newFavorites);
         } else if (db) {
             const favDocRef = doc(db, 'users', user.uid, 'favorites', 'data');
-            // This setDoc should merge the entire new favorites object.
-            // Be cautious if you only want to update a single field.
             setDoc(favDocRef, newFavorites, { merge: true }).catch(err => {
                 console.error("Firestore update failed:", err);
                 errorEmitter.emit('permission-error', new FirestorePermissionError({
@@ -334,15 +332,12 @@ export function AppContentWrapper({ showHints, onHintsDismissed }: { showHints: 
   
   const isDataReady = customNames !== null && !isUserLoading;
 
-  if (!isDataReady) {
-    return null;
-  }
-
   if (showSplashAd) {
     return <SplashScreenAd />;
   }
   
   const activeStack = navigationState.stacks[navigationState.activeTab] || [];
+  const activeStackItem = activeStack.length > 0 ? activeStack[activeStack.length - 1] : null;
   
   const pageVariants = {
       initial: { x: '100%', opacity: 0 },
@@ -367,68 +362,39 @@ export function AppContentWrapper({ showHints, onHintsDismissed }: { showHints: 
     setFavorites: handleSetFavorites,
     onCustomNameChange: fetchCustomNames,
   };
+  
+  const ActiveComponent = activeStackItem ? screenConfig[activeStackItem.screen]?.component : null;
 
   return (
         <main className="h-screen w-screen bg-background flex flex-col">
         {showHints && <OnboardingHints onDismiss={onHintsDismissed} activeTab={navigationState.activeTab} />}
         <div className="relative flex-1 flex flex-col overflow-hidden">
-             <AnimatePresence initial={false}>
-                {mainTabs.map(tabKey => {
-                    const stack = navigationState.stacks[tabKey];
-                    if (!stack || stack.length === 0) return null;
-                    const isActiveTab = navigationState.activeTab === tabKey;
-                    if (!isActiveTab) return null;
-
-                    return (
-                         <motion.div
-                            key={tabKey}
-                            className="absolute inset-0 flex flex-col"
-                            initial="initial"
-                            animate="in"
-                            exit="out"
-                            variants={tabVariants}
-                            transition={tabTransition}
-                        >
-                             <AnimatePresence initial={false}>
-                                {stack.map((stackItem, index) => {
-                                    const isVisible = index === stack.length - 1;
-                                    const Component = screenConfig[stackItem.screen]?.component;
-                                    if (!Component) return null;
-                                    
-                                    const screenProps = {
-                                        ...baseScreenProps,
-                                        ...stackItem.props,
-                                        canGoBack: stack.length > 1,
-                                        isVisible,
-                                    };
-
-                                    return (
-                                        <motion.div
-                                            key={stackItem.key}
-                                            className="absolute inset-0 flex flex-col bg-background"
-                                            initial="initial"
-                                            animate={isVisible ? "in" : "out"}
-                                            exit="out"
-                                            variants={pageVariants}
-                                            transition={pageTransition}
-                                            style={{
-                                                zIndex: index + 1,
-                                                pointerEvents: isVisible ? 'auto' : 'none',
-                                            }}
-                                        >
-                                            <Component {...screenProps} />
-                                        </motion.div>
-                                    )
-                                })}
-                             </AnimatePresence>
-                        </motion.div>
-                    )
-                })}
-            </AnimatePresence>
+             {isDataReady && ActiveComponent ? (
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeStackItem?.key}
+                        className="absolute inset-0 flex flex-col bg-background"
+                        initial="initial"
+                        animate="in"
+                        exit="out"
+                        variants={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabVariants : pageVariants}
+                        transition={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabTransition : pageTransition}
+                    >
+                        <ActiveComponent
+                            {...baseScreenProps}
+                            {...activeStackItem?.props}
+                            canGoBack={activeStack.length > 1}
+                            isVisible={true} // The active component is always visible
+                        />
+                    </motion.div>
+                </AnimatePresence>
+            ) : (
+                null // Don't render anything if data is not ready, handled by root page.tsx
+            )}
         </div>
         
         {showBannerAd && <BannerAd />}
-        {mainTabs.includes(activeStack[activeStack.length - 1]?.screen) && <BottomNav activeScreen={navigationState.activeTab} onNavigate={(screen) => navigate(screen)} />}
+        {activeStackItem && mainTabs.includes(activeStackItem.screen) && <BottomNav activeScreen={navigationState.activeTab} onNavigate={(screen) => navigate(screen)} />}
         </main>
   );
 }

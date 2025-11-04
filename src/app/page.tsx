@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -176,6 +177,5 @@ export default function Home() {
         return <WelcomeScreen />;
     }
 
-    // Pass isGuest flag to OnboardingFlow
     return <OnboardingFlow user={user} isGuest={isGuest} />;
 }

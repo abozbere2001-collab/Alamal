@@ -3,7 +3,6 @@
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
   disable: process.env.NODE_ENV === 'development',
-  // add your own strategies to the existing ones
   extendDefaultRuntimeCaching: true,
   runtimeCaching: [
     {
@@ -34,7 +33,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const nextConfig = {
   output: 'export',
-  images: { unoptimized: true }, // Required for static export
+  images: { unoptimized: true },
   devIndicators: {
     allowedDevOrigins: [
         '*.cloudworkstations.dev',
