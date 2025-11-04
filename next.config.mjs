@@ -1,8 +1,31 @@
-
+/** @type {import('next').NextConfig} */
 import type {NextConfig} from 'next';
 
 const repoName = 'Alamal';
 const isProd = process.env.NODE_ENV === 'production';
+
+const withPWA = require("@ducanh2912/next-pwa").default({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: true,
+  cacheStartUrl: true,
+  dynamicOptions: {
+    // you can pass your own options here
+    // for example, you can pass a custom runtime cache
+    // runtimeCaching,
+  },
+  fallbacks: {
+    // Failed page requests will fallback to this.
+    // document: '/~offline',
+  },
+  workboxOptions: {
+    // Workbox options go here.
+  },
+  // disable: process.env.NODE_ENV === 'development', // disable pwa in development
+});
+
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -30,4 +53,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWA(nextConfig);

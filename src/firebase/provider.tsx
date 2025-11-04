@@ -236,9 +236,15 @@ export const useAdmin = () => {
         if (user && db) {
             const adminDocRef = doc(db, 'admins', user.uid);
             await setDoc(adminDocRef, { isAdmin: true });
-            setIsAdmin(true);
         }
     };
+    
+    const memoizedAdmin = useMemo(() => ({
+        isAdmin,
+        isCheckingAdmin,
+        makeAdmin,
+        db
+    }), [isAdmin, isCheckingAdmin, makeAdmin, db]);
 
-    return { isAdmin, isCheckingAdmin, makeAdmin, db };
+    return memoizedAdmin;
 };

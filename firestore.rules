@@ -140,21 +140,17 @@ service cloud.firestore {
     /**
      * @description Manages admin user data. Existence of a document in this collection grants admin privileges.
      * @path /admins/{adminId}
-     * @allow (get) - Any user can read an admin document.
-     * @allow (list) - Any user can list admin documents.
+     * @allow (get) - Any user can read an admin document to check for existence.
+     * @allow (list) - Listing admins is disallowed for security.
      * @allow (create) - Only firebase functions can create admins.
-     * @deny (create) - A non-admin user attempts to create a new admin document.
-     *
-     *  // TODO: Add owner validation once the schema is updated with an ownership field.
-     * @deny (update) - A non-admin user attempts to update a admin document.
-     * @deny (delete) - A non-admin user attempts to delete a admin document.
+     * @deny (update, delete) - Admins cannot be updated or deleted from the client.
      */
     match /admins/{adminId} {
-      allow get: if isAdmin();
+      allow get: if true;
       allow list: if false;
-      allow create: if false; // Only firebase functions can create admins.
-      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
-      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
     }
     
     match /predictionFixtures/{fixtureId} {
@@ -183,5 +179,3 @@ service cloud.firestore {
     return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
   }
 }
-
-    
