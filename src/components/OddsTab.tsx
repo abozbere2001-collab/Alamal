@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -87,7 +86,7 @@ export function OddsTab({ fixtureId }: { fixtureId: number }) {
             const bookmaker = oddsResponse?.bookmakers?.find((b: Bookmaker) => b.id === 1); // Using 1xBet
             const matchWinnerBet = bookmaker?.bets.find((b: Bet) => b.id === 1);
 
-            if (matchWinnerBet && oddsResponse.update && fixtureInfo) {
+            if (matchWinnerBet && oddsResponse && oddsResponse.update && fixtureInfo) {
                 const currentOdds: { [key: string]: number } = {};
                 matchWinnerBet.values.forEach((v: OddValue) => {
                    const key = v.value.toLowerCase().replace(' ', '');
