@@ -258,6 +258,7 @@ const getDisplayName = useCallback((type: 'team' | 'player' | 'league', id: numb
         }
 
         // Logged-in user logic
+        if (!db) return;
         const favDocRef = doc(db, 'users', user.uid, 'favorites', 'data');
         const isCurrentlyFavorited = !!favorites?.teams?.[teamId];
         const updatePayload = {
@@ -290,6 +291,7 @@ const getDisplayName = useCallback((type: 'team' | 'player' | 'league', id: numb
         }
 
         // Logged-in user logic
+        if (!db) return;
         const favDocRef = doc(db, 'users', user.uid, 'favorites', 'data');
         const isCurrentlyFavorited = !!favorites?.leagues?.[leagueId];
         const updatePayload = {
