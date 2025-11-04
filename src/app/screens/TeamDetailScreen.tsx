@@ -334,7 +334,7 @@ const TeamDetailsTabs = ({ teamId, leagueId, navigate, onPinToggle, pinnedPredic
             <TabsContent value="matches" className="mt-4">
                 <div ref={listRef} className="max-h-[60vh] overflow-y-auto space-y-4">
                     {sortedDates.length > 0 ? sortedDates.map(date => (
-                        <div key={date} ref={el => dateRefs.current[date] = el}>
+                        <div key={date} ref={(el) => { dateRefs.current[date] = el; }}>
                             <h3 className="font-bold text-center text-sm text-muted-foreground my-2">
                                 {format(new Date(date), 'EEEE, d MMMM yyyy', { locale: ar })}
                             </h3>
@@ -596,6 +596,3 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
         </div>
     );
 }
-
-    
-    

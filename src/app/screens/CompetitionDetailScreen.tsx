@@ -495,7 +495,7 @@ const getDisplayName = useCallback((type: 'team' | 'player' | 'league', id: numb
                     </div>
                 ) : sortedFixtureDates.length > 0 ? (
                     sortedFixtureDates.map(date => (
-                        <div key={date} ref={el => dateRefs.current[date] = el}>
+                        <div key={date} ref={(el) => { dateRefs.current[date] = el; }}>
                             <h3 className="font-bold text-center text-sm text-muted-foreground my-2">
                                 {format(new Date(date), 'EEEE, d MMMM yyyy', { locale: ar })}
                             </h3>
