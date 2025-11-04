@@ -23,8 +23,10 @@ export type ScreenProps = {
   navigate: (screen: ScreenKey, props?: Record<string, any>) => void;
   goBack: () => void;
   canGoBack: boolean;
+  headerActions?: React.ReactNode;
   favorites?: any; // To accept props from wrapper
   customNames?: any; // To accept props from wrapper
+  isVisible?: boolean;
 };
 
 const GUEST_ONBOARDING_COMPLETE_KEY = 'goalstack_guest_onboarding_complete';
