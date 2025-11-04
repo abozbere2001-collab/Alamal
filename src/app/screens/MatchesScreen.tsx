@@ -382,14 +382,17 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
             
             const newFixtures = cachedFixtures.map(oldFixture => {
                 const updatedFixture = updatedFixturesMap.get(oldFixture.fixture.id);
-                return updatedFixture ? {
-                    ...updatedFixture,
-                    league: { ...updatedFixture.league, name: getDisplayName('league', updatedFixture.league.id, updatedFixture.league.name) },
-                    teams: {
-                        home: { ...updatedFixture.teams.home, name: getDisplayName('team', updatedFixture.teams.home.id, updatedFixture.teams.home.name) },
-                        away: { ...updatedFixture.teams.away, name: getDisplayName('team', updatedFixture.teams.away.id, updatedFixture.teams.away.name) }
-                    }
-                } : oldFixture;
+                if (updatedFixture) {
+                    return {
+                        ...(updatedFixture as FixtureType),
+                        league: { ...(updatedFixture as FixtureType).league, name: getDisplayName('league', (updatedFixture as FixtureType).league.id, (updatedFixture as FixtureType).league.name) },
+                        teams: {
+                            home: { ...(updatedFixture as FixtureType).teams.home, name: getDisplayName('team', (updatedFixture as FixtureType).teams.home.id, (updatedFixture as FixtureType).teams.home.name) },
+                            away: { ...(updatedFixture as FixtureType).teams.away, name: getDisplayName('team', (updatedFixture as FixtureType).teams.away.id, (updatedFixture as FixtureType).teams.away.name) }
+                        }
+                    };
+                }
+                return oldFixture;
             });
             
             setMatchesCache(prev => new Map(prev).set(dateKey, newFixtures));
