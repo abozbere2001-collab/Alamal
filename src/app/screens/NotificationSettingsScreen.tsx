@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import type { ScreenProps } from '@/app/page';
 import { useAuth, useFirestore } from '@/firebase';
 import { collection, doc, updateDoc, getDocs, setDoc } from 'firebase/firestore';
-import type { Favorites } from '@/lib/types';
+import type { Favorites, FavoriteLeague } from '@/lib/types';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -62,7 +62,9 @@ export function NotificationSettingsScreen({ navigate, goBack, canGoBack, header
 
   const favoriteLeagues = useMemo(() => {
     if (!favorites?.leagues || !customNames) return [];
-    return Object.values(favorites.leagues).map(comp => ({
+    return Object.values(favorites.leagues)
+        .filter((comp): comp is FavoriteLeague => !!comp && typeof comp === 'object')
+        .map((comp) => ({
         ...comp,
         name: getDisplayName('league', comp.leagueId, comp.name)
     }));
