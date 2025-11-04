@@ -382,7 +382,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
             
             const newFixtures = cachedFixtures.map(oldFixture => {
                 const updatedFixture = updatedFixturesMap.get(oldFixture.fixture.id);
-                if (updatedFixture) {
+                 if (updatedFixture) {
                     return {
                         ...(updatedFixture as FixtureType),
                         league: { ...(updatedFixture as FixtureType).league, name: getDisplayName('league', (updatedFixture as FixtureType).league.id, (updatedFixture as FixtureType).league.name) },
