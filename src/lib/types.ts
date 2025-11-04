@@ -1,6 +1,5 @@
 
 
-
 // This file contains all the type definitions for the data used in the app.
 
 // --- API Football Types ---
@@ -52,6 +51,7 @@ export interface Team {
   name: string;
   logo: string;
   national?: boolean;
+  country?: string;
   type?: 'Club' | 'National';
 }
 
