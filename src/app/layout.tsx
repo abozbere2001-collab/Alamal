@@ -23,8 +23,6 @@ const cairo = Cairo({
   variable: '--font-cairo',
 });
 
-const ICON_192_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAAAXNSR0IArs4c6QAAAyJJREFUeF7t1AEJAAAMAsHZv/RyPNwSyDncOQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7AQIECEQEFskpJgECBM5geQECBAhEBBbJKSYBAgTOYHsBAgQIRAQWySkmgQIEzmB7aQECBAgQCAgsllNMAgQInMH2AgQIECgILJZTTAIECJzB9gIECBAgEBBYLKeYBAgQOIPtBQgQIFAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAQWCynmAQIETiD7QUCECBAICCwWE4xCRYgQOAPtBQgQIBAYLLKVfH8EBdYy8AAAAASUVORK5CYII=";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,8 +36,8 @@ export default function RootLayout({
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
           <link rel="manifest" href="/Alamal/manifest.json" />
-          <link rel="apple-touch-icon" href="/Alamal/icon-192x192.png" />
-          <link rel="icon" type="image/png" sizes="192x192" href="/Alamal/icon-192x192.png" />
+          <link rel="apple-touch-icon" href="/Alamal/icons/icon-192x192.png" />
+          <link rel="icon" type="image/png" sizes="192x192" href="/Alamal/icons/icon-192x192.png" />
         </head>
         <body className={`${cairo.variable} font-body antialiased`}>
             <ThemeProvider
