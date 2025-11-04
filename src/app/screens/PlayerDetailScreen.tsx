@@ -143,7 +143,7 @@ const CurrentTeamStats = ({ statistics, navigate }: { statistics: PlayerSeasonSt
 const CareerHistory = ({ transfers, navigate }: { transfers: Transfer[], navigate: ScreenProps['navigate'] }) => {
     const careerTeams = React.useMemo(() => {
         if (!transfers || transfers.length === 0) return [];
-        const teamsMap = new Map<number, { name: string; logo: string }>();
+        const teamsMap = new Map<number, { id: number; name: string; logo: string }>();
         transfers.forEach(t => {
             if (t.teams?.in) teamsMap.set(t.teams.in.id, t.teams.in);
             if (t.teams?.out) teamsMap.set(t.teams.out.id, t.teams.out);
@@ -283,5 +283,3 @@ export function PlayerDetailScreen({ navigate, goBack, canGoBack, playerId }: Sc
     </div>
   );
 }
-
-    
