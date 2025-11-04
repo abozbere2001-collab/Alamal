@@ -490,7 +490,7 @@ export function AllCompetitionsScreen({ navigate, goBack, canGoBack, favorites, 
                                     {sortedGroupedCompetitions[continent][country].map(({ league }) => (
                                         <LeagueHeaderItem
                                             key={league.id}
-                                            league={{leagueId: league.id, name: getName('league', league.id, league.name), logo: league.logo, countryName: country}}
+                                            league={{leagueId: league.id, name: getName('league', league.id, league.name), logo: league.logo, countryName: country, countryFlag: sortedGroupedCompetitions[continent][country][0].country.flag}}
                                             isFavorited={!!favorites?.leagues?.[league.id]}
                                             onFavoriteToggle={() => handleFavoriteToggle(league, 'leagues')}
                                             onRename={() => handleOpenRename('league', league.id, getName('league', league.id, league.name), league.name)}
