@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
@@ -8,7 +7,7 @@ import { Star, Plus, Users, Trophy, User as PlayerIcon, Search } from 'lucide-re
 import type { ScreenProps } from '@/app/page';
 import { Button } from '@/components/ui/button';
 import { useAuth, useFirestore } from '@/firebase/provider';
-import type { FavoriteTeam, Favorites } from '@/lib/types';
+import type { FavoriteTeam, FavoriteLeague, Favorites } from '@/lib/types';
 import { SearchSheet } from '@/components/SearchSheet';
 import { ProfileButton } from '../AppContentWrapper';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -47,10 +46,12 @@ export function CompetitionsScreen({ navigate, goBack, canGoBack, favorites, cus
 
     const favoriteLeagues = useMemo(() => {
         if (!favorites?.leagues || !customNames) return [];
-        return Object.values(favorites.leagues).map(comp => ({
-            ...comp,
-            name: getDisplayName('league', comp.leagueId, comp.name)
-        }));
+        return Object.values(favorites.leagues)
+            .filter((comp): comp is FavoriteLeague => !!comp && typeof comp === 'object')
+            .map((comp: FavoriteLeague) => ({
+                ...comp,
+                name: getDisplayName('league', comp.leagueId, comp.name)
+            }));
     }, [favorites.leagues, customNames, getDisplayName]);
 
     const favoritePlayers = useMemo(() => favorites?.players ? Object.values(favorites.players) : [], [favorites.players]);
