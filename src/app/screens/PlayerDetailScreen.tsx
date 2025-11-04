@@ -9,7 +9,7 @@ import { useFirestore } from '@/firebase/provider';
 import { doc, getDoc } from 'firebase/firestore';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { errorEmitter } from '@/firebase/error-emitter';
-import type { Player, PlayerStats } from '@/lib/types';
+import type { Player, PlayerSeasonStats } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
@@ -38,7 +38,7 @@ interface PlayerInfo extends Player {
 
 interface PlayerData {
     player: PlayerInfo;
-    statistics: PlayerStats[];
+    statistics: PlayerSeasonStats[];
 }
 
 interface Transfer {
@@ -81,7 +81,7 @@ const PlayerHeader = ({ player }: { player: PlayerInfo }) => (
     </Card>
 );
 
-const CurrentTeamStats = ({ statistics, navigate }: { statistics: PlayerStats[], navigate: ScreenProps['navigate'] }) => {
+const CurrentTeamStats = ({ statistics, navigate }: { statistics: PlayerSeasonStats[], navigate: ScreenProps['navigate'] }) => {
     if (statistics.length === 0) {
         return (
              <Card>

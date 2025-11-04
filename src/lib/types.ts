@@ -66,6 +66,70 @@ export interface Player {
   rating?: string | null;
 }
 
+export interface PlayerSeasonStats {
+  team: Team;
+  league: Fixture['league'];
+  games: {
+    appearences: number;
+    lineups: number;
+    minutes: number;
+    number: number | null;
+    position: string;
+    rating: string | null;
+    captain: boolean;
+  };
+  substitutes: {
+    in: number;
+    out: number;
+    bench: number;
+  };
+  shots: {
+    total: number | null;
+    on: number | null;
+  };
+  goals: {
+    total: number;
+    conceded: number | null;
+    assists: number | null;
+    saves: number | null;
+  };
+  passes: {
+    total: number | null;
+    key: number | null;
+    accuracy: number | null;
+  };
+  tackles: {
+    total: number | null;
+    blocks: number | null;
+    interceptions: number | null;
+  };
+  duels: {
+    total: number | null;
+    won: number | null;
+  };
+  dribbles: {
+    attempts: number | null;
+    success: number | null;
+    past: number | null;
+  };
+  fouls: {
+    drawn: number | null;
+    committed: number | null;
+  };
+  cards: {
+    yellow: number;
+    yellowred: number;
+    red: number;
+  };
+  penalty: {
+    won: number | null;
+    commited: number | null;
+    scored: number;
+    missed: number;
+    saved: number | null;
+  };
+}
+
 
 export interface PlayerWithStats {
   player: Player;
