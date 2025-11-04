@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useEffect, useState, useCallback } from 'react';
@@ -284,3 +283,5 @@ export function PlayerDetailScreen({ navigate, goBack, canGoBack, playerId }: Sc
     </div>
   );
 }
+
+    
