@@ -8,7 +8,7 @@ import { Star, Plus, Users, Trophy, User as PlayerIcon, Search } from 'lucide-re
 import type { ScreenProps } from '@/app/page';
 import { Button } from '@/components/ui/button';
 import { useAuth, useFirestore } from '@/firebase/provider';
-import type { Favorites } from '@/lib/types';
+import type { FavoriteTeam, Favorites } from '@/lib/types';
 import { SearchSheet } from '@/components/SearchSheet';
 import { ProfileButton } from '../AppContentWrapper';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -37,10 +37,12 @@ export function CompetitionsScreen({ navigate, goBack, canGoBack, favorites, cus
 
     const favoriteTeams = useMemo(() => {
       if (!favorites?.teams || !customNames) return [];
-      return Object.values(favorites.teams).map(team => ({
-        ...team,
-        name: getDisplayName('team', team.teamId, team.name)
-      }));
+      return Object.values(favorites.teams)
+        .filter((team): team is FavoriteTeam => !!team && typeof team === 'object')
+        .map((team: FavoriteTeam) => ({
+            ...team,
+            name: getDisplayName('team', team.teamId, team.name)
+        }));
     }, [favorites.teams, customNames, getDisplayName]);
 
     const favoriteLeagues = useMemo(() => {
