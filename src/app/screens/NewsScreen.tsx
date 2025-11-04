@@ -179,3 +179,5 @@ export function NewsScreen({ navigate, goBack, canGoBack, favorites, customNames
   );
 }
 
+
+    
