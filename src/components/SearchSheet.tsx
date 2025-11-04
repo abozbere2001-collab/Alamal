@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
@@ -360,7 +359,7 @@ export function SearchSheet({ children, navigate, initialItemType, favorites, cu
             }
             return newFavorites;
         });
-    }, [user, setFavorites, toast, favorites]);
+    }, [user, setFavorites, toast]);
 
 
   const handleOpenCrownDialog = (team: Item) => {

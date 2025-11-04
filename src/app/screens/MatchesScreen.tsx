@@ -254,7 +254,7 @@ const DateScroller = ({ selectedDateKey, onDateSelect }: {selectedDateKey: strin
 }
 
 // Main Screen Component
-export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorites, customNames, setFavorites, onCustomNameChange }: ScreenProps & { isVisible: boolean, setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>, onCustomNameChange: () => Promise<void> }) {
+export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorites, customNames, setFavorites, onCustomNameChange }: ScreenProps & { isVisible: boolean, setFavorites: React.Dispatch<React.SetStateAction<Partial<Favorites>>>, onCustomNameChange?: () => Promise<void> }) {
   const { user } = useAuth();
   const { db, isAdmin } = useAdmin();
   const { toast } = useToast();
