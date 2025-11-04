@@ -33,7 +33,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 });
 
 const nextConfig = {
-  // your next config...
+  output: 'export',
 };
 
 module.exports = withPWA(nextConfig);
