@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -157,7 +156,7 @@ export function ManageTopScorersScreen({ navigate, goBack, canGoBack, headerActi
                 </button>
                 <input
                     type="file"
-                    ref={el => fileInputRefs.current[index] = el}
+                    ref={(el) => { fileInputRefs.current[index] = el; }}
                     onChange={(e) => handleFileChange(e, index)}
                     className="hidden"
                     accept="image/*"
