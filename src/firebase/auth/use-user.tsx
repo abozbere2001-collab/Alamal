@@ -2,7 +2,7 @@
 
 import { useContext } from 'react';
 import type { User } from 'firebase/auth';
-import { FirebaseContext } from '@/firebase/provider';
+import { FirebaseContext, type FirebaseContextState } from '@/firebase/provider';
 
 /**
  * Custom hook to access the current authenticated user and loading state.
@@ -21,5 +21,5 @@ export const useUser = (): { user: User | null; isUserLoading: boolean } => {
     return { user: null, isUserLoading: true };
   }
   
-  return { user: context.user, isUserLoading: context.isLoading };
+  return { user: context.user, isUserLoading: context.isUserLoading };
 };
