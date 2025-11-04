@@ -30,7 +30,7 @@ interface FirebaseServices {
 }
 
 const LoadingSplashScreen = () => (
-    <div className="flex flex-col items-center justify-center h-screen bg-background text-center">
+    <div className="flex flex-col items-center justify-center h-full bg-background text-center">
         <NabdAlMalaebLogo className="h-24 w-24 mb-4" />
         <h1 className="text-2xl font-bold font-headline mb-8 text-primary">نبض الملاعب</h1>
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -50,14 +50,10 @@ export function FirebaseClientProvider({ children }: FirebaseClientProviderProps
     setServices({ firebaseApp: app, auth, firestore });
   }, []);
 
-  // On the server, and on the initial client render before the effect runs,
-  // services will be null, so we render the loading screen.
-  // This ensures the server-rendered HTML matches the initial client render.
   if (!services) {
     return <LoadingSplashScreen />;
   }
 
-  // Once services are initialized on the client, we render the actual provider.
   return (
     <FirebaseProvider
       firebaseApp={services.firebaseApp}

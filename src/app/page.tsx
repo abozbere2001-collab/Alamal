@@ -11,12 +11,10 @@ import { FavoriteSelectionScreen } from './screens/FavoriteSelectionScreen';
 import { doc, getDoc, setDoc, type Firestore } from 'firebase/firestore';
 import { FirestorePermissionError } from '@/firebase/errors';
 import { errorEmitter } from '@/firebase/error-emitter';
-import { NabdAlMalaebLogo } from '@/components/icons/NabdAlMalaebLogo';
 import { WelcomeScreen, GUEST_MODE_KEY } from './screens/WelcomeScreen';
 import { handleNewUser } from '@/lib/firebase-client';
 import { type User } from 'firebase/auth';
 import { ProfileScreen } from './screens/ProfileScreen';
-import { OnboardingHints } from '@/components/OnboardingHints';
 
 export type ScreenKey = 'Welcome' | 'SignUp' | 'Matches' | 'Competitions' | 'AllCompetitions' | 'News' | 'Settings' | 'CompetitionDetails' | 'TeamDetails' | 'PlayerDetails' | 'AdminFavoriteTeamDetails' | 'Profile' | 'SeasonPredictions' | 'SeasonTeamSelection' | 'SeasonPlayerSelection' | 'AddEditNews' | 'ManageTopScorers' | 'MatchDetails' | 'NotificationSettings' | 'GeneralSettings' | 'ManagePinnedMatch' | 'PrivacyPolicy' | 'TermsOfService' | 'FavoriteSelection' | 'GoPro' | 'MyCountry' | 'Predictions';
 
@@ -32,15 +30,6 @@ export type ScreenProps = {
 
 const GUEST_ONBOARDING_COMPLETE_KEY = 'goalstack_guest_onboarding_complete';
 const NEW_USER_HINTS_SHOWN_KEY = 'goalstack_new_user_hints_shown';
-
-
-const LoadingSplashScreen = () => (
-    <div className="flex flex-col items-center justify-center h-screen bg-background text-center">
-        <NabdAlMalaebLogo className="h-24 w-24 mb-4" />
-        <h1 className="text-2xl font-bold font-headline mb-8 text-primary">نبض الملاعب</h1>
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-    </div>
-);
 
 
 const OnboardingFlow = ({ user, isGuest }: { user: User | null, isGuest: boolean }) => {
@@ -135,7 +124,11 @@ const OnboardingFlow = ({ user, isGuest }: { user: User | null, isGuest: boolean
     }, [isNewUser]);
 
     if (isLoading) {
-        return <LoadingSplashScreen />;
+        return (
+             <div className="flex flex-col items-center justify-center h-full">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
     }
 
     if (!onboardingComplete) {
@@ -170,7 +163,11 @@ export default function Home() {
     }, []);
     
     if (isUserLoading || isCheckingGuest) {
-        return <LoadingSplashScreen />;
+        return (
+            <div className="flex flex-col items-center justify-center h-full">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
     }
 
     if (!user && !isGuest) {

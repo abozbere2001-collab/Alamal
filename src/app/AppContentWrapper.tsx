@@ -366,30 +366,34 @@ export function AppContentWrapper({ showHints, onHintsDismissed }: { showHints: 
   const ActiveComponent = activeStackItem ? screenConfig[activeStackItem.screen]?.component : null;
 
   return (
-        <main className="h-screen w-screen bg-background flex flex-col">
+        <main>
         {showHints && <OnboardingHints onDismiss={onHintsDismissed} activeTab={navigationState.activeTab} />}
-        <div className="relative flex-1 flex flex-col overflow-hidden">
-             {isDataReady && ActiveComponent ? (
+        <div className="relative flex-1 flex flex-col overflow-hidden h-full">
+             {!isDataReady ? (
+                 <div className="flex-1 flex items-center justify-center">
+                    <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+             ) : (
                 <AnimatePresence mode="wait">
-                    <motion.div
-                        key={activeStackItem?.key}
-                        className="absolute inset-0 flex flex-col bg-background"
-                        initial="initial"
-                        animate="in"
-                        exit="out"
-                        variants={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabVariants : pageVariants}
-                        transition={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabTransition : pageTransition}
-                    >
-                        <ActiveComponent
-                            {...baseScreenProps}
-                            {...activeStackItem?.props}
-                            canGoBack={activeStack.length > 1}
-                            isVisible={true} // The active component is always visible
-                        />
-                    </motion.div>
+                    {activeStackItem && ActiveComponent && (
+                        <motion.div
+                            key={activeStackItem?.key}
+                            className="absolute inset-0 flex flex-col bg-background"
+                            initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabVariants : pageVariants}
+                            transition={mainTabs.includes(activeStackItem?.screen as ScreenKey) ? tabTransition : pageTransition}
+                        >
+                            <ActiveComponent
+                                {...baseScreenProps}
+                                {...activeStackItem?.props}
+                                canGoBack={activeStack.length > 1}
+                                isVisible={true} // The active component is always visible
+                            />
+                        </motion.div>
+                    )}
                 </AnimatePresence>
-            ) : (
-                null // Don't render anything if data is not ready, handled by root page.tsx
             )}
         </div>
         
