@@ -42,6 +42,7 @@ export function FirebaseClientProvider({ children }: FirebaseClientProviderProps
   const [services, setServices] = useState<FirebaseServices | null>(null);
 
   useEffect(() => {
+    // This effect runs only once on the client
     const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     const auth = getAuth(app);
     const firestore = getFirestore(app);
@@ -49,12 +50,14 @@ export function FirebaseClientProvider({ children }: FirebaseClientProviderProps
     setServices({ firebaseApp: app, auth, firestore });
   }, []);
 
+  // On the server, and on the initial client render before the effect runs,
+  // services will be null, so we render the loading screen.
+  // This ensures the server-rendered HTML matches the initial client render.
   if (!services) {
-    // Render a loading screen on the server and during initial client-side loading
-    // to prevent hydration mismatch.
     return <LoadingSplashScreen />;
   }
 
+  // Once services are initialized on the client, we render the actual provider.
   return (
     <FirebaseProvider
       firebaseApp={services.firebaseApp}
