@@ -553,8 +553,3 @@ export function PredictionsScreen({ navigate, goBack, canGoBack, favorites, cust
     );
 }
 
-    
-
-    
-
-    

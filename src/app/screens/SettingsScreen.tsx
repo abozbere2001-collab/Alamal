@@ -132,8 +132,3 @@ export function SettingsScreen({ navigate, goBack, canGoBack, favorites, customN
   );
 }
 
-    
-
-    
-
-    
