@@ -282,7 +282,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
 
   const getDisplayName = useCallback((type: 'team' | 'league', id: number, defaultName: string) => {
     if (!customNames || !defaultName) return defaultName || '';
-    const firestoreMap = type === 'team' ? customNames?.teams : customNames?.leagues;
+    const firestoreMap = type === 'team' ? customNames.teams : customNames.leagues;
     const customName = firestoreMap?.get(id);
     if (customName) return customName;
 
@@ -318,6 +318,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
   }, [db, pinnedPredictionMatches, toast]);
 
     const fetchAndProcessData = useCallback(async (dateKey: string, abortSignal: AbortSignal) => {
+        if (!customNames) return; // Guard against null customNames
         setLoading(true);
 
         try {
@@ -354,9 +355,10 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
         } finally {
             if (!abortSignal.aborted) setLoading(false);
         }
-    }, [getDisplayName]);
+    }, [getDisplayName, customNames]);
 
     const updateLiveData = useCallback(async (dateKey: string, abortSignal: AbortSignal) => {
+        if (!customNames) return; // Guard against null customNames
         const cachedFixtures = matchesCache.get(dateKey);
         if (!cachedFixtures) return;
 
@@ -402,7 +404,7 @@ export function MatchesScreen({ navigate, goBack, canGoBack, isVisible, favorite
             if (error.name !== 'AbortError') console.error("Live update failed:", error);
         }
 
-    }, [matchesCache, getDisplayName]);
+    }, [matchesCache, getDisplayName, customNames]);
 
   
   useEffect(() => {
