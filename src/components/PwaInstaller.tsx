@@ -9,9 +9,7 @@ export function PwaInstaller() {
       typeof window !== 'undefined' &&
       'serviceWorker' in navigator
     ) {
-      // Use a static path that will be correct on GitHub Pages
-      const serviceWorkerUrl = '/Alamal/service-worker.js';
-      navigator.serviceWorker.register(serviceWorkerUrl)
+      navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })

@@ -5,25 +5,18 @@
   "theme_color": "#000000",
   "background_color": "#000000",
   "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/?source=pwa",
+  "id": "/",
   "orientation": "portrait",
-  "scope": "/Alamal/",
-  "start_url": "/Alamal/",
-  "id": "/Alamal/",
   "icons": [
     {
-      "src": "/Alamal/icons/icon-192x192.png",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Alamal/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/Alamal/icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
