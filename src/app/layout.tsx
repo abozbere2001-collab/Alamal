@@ -10,7 +10,7 @@ import { PwaInstaller } from '@/components/PwaInstaller';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: '/Alamal/manifest.json', // Correct path for GitHub Pages
+  manifest: '/manifest.json',
 };
 
 const cairo = Cairo({
@@ -36,11 +36,10 @@ export default function RootLayout({
           
           {/* Theme color for browsers */}
           <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-          <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+          <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)" />
           
-          {/* Link tags that are now correctly handled by basePath */}
-          <link rel="manifest" href="/Alamal/manifest.json" />
-          <link rel="apple-touch-icon" href="/Alamal/icons/icon-192x192.png" />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider

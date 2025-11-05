@@ -9,9 +9,7 @@ export function PwaInstaller() {
       typeof window !== 'undefined' &&
       'serviceWorker' in navigator
     ) {
-      // The service worker is registered directly from the public folder.
-      // The basePath in next.config.js will handle the path correction.
-      navigator.serviceWorker.register('/Alamal/service-worker.js', { scope: '/Alamal/' })
+      navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
