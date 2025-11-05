@@ -7,10 +7,12 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
 
+const basePath = process.env.NODE_ENV === 'production' ? '/Alamal' : '';
+
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: '/Alamal/manifest.json',
+  manifest: `${basePath}/manifest.json`,
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -37,9 +39,9 @@ export default function RootLayout({
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
           <meta name="apple-mobile-web-app-title" content="نبض الملاعب" />
-          <link rel="manifest" href="/Alamal/manifest.json" />
-          <link rel="apple-touch-icon" href="/Alamal/icons/icon-192x192.png" />
-          <link rel="icon" type="image/png" sizes="192x192" href="/Alamal/icons/icon-192x192.png" />
+          <link rel="manifest" href={`${basePath}/manifest.json`} />
+          <link rel="apple-touch-icon" href={`${basePath}/icons/icon-192x192.png`} />
+          <link rel="icon" type="image/png" sizes="192x192" href={`${basePath}/icons/icon-192x192.png`} />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider

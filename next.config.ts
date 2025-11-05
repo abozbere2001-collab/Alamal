@@ -32,9 +32,14 @@ const withPWA = require('@ducanh2912/next-pwa').default({
   display: 'fullscreen',
 });
 
+const isProd = process.env.NODE_ENV === 'production';
+const repoName = 'Alamal';
+
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
+  basePath: isProd ? `/${repoName}` : '',
+  assetPrefix: isProd ? `/${repoName}/` : '',
   devIndicators: {
     allowedDevOrigins: [
         '*.cloudworkstations.dev',
