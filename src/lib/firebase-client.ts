@@ -77,15 +77,29 @@ export const handleNewUser = async (user: User, firestore: Firestore) => {
 };
 
 
-export const signOut = (): Promise<void> => {
-    // Also clear guest mode flag on sign out.
+export const signOut = async (): Promise<void> => {
+    const auth = getAuth();
+    
+    // Always clear guest mode flag on any sign out attempt.
     if (typeof window !== 'undefined' && localStorage.getItem(GUEST_MODE_KEY)) {
         localStorage.removeItem(GUEST_MODE_KEY);
-        window.location.reload();
-        return Promise.resolve();
     }
-    const auth = getAuth();
-    return firebaseSignOut(auth);
+    
+    // If there's a logged-in user (even anonymous), sign them out from Firebase.
+    // Otherwise, just navigate.
+    if (auth.currentUser) {
+        await firebaseSignOut(auth);
+    }
+
+    // After sign out, navigate to welcome screen. This is safe for PWAs.
+    // The onAuthStateChanged listener will handle the UI update.
+    if (typeof window !== 'undefined' && (window as any).appNavigate) {
+      (window as any).appNavigate('Welcome');
+    } else if (typeof window !== 'undefined') {
+      // Fallback if appNavigate is not ready, though less ideal for PWAs.
+      // This is a safer alternative to reload().
+      window.location.href = '/'; 
+    }
 };
 
 
