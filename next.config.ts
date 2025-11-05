@@ -31,7 +31,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
     skipWaiting: true,
   },
   register: true,
-  display: 'standalone',
+  display: 'fullscreen', // Use fullscreen for a completely immersive experience
 });
 
 const isProd = process.env.NODE_ENV === 'production';
