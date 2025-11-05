@@ -6,13 +6,12 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
 
-// The basePath is now hardcoded in the manifest link to ensure correctness on GitHub Pages.
 const basePath = '/Alamal';
 
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: `${basePath}/manifest.webmanifest`,
+  manifest: `${basePath}/manifest.json`,
 };
 
 const cairo = Cairo({
@@ -32,9 +31,8 @@ export default function RootLayout({
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-          <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
-          <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
-          <link rel="manifest" href={`${basePath}/manifest.webmanifest`} />
+          <meta name="theme-color" content="#000000" />
+          <link rel="manifest" href={`${basePath}/manifest.json`} />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider
