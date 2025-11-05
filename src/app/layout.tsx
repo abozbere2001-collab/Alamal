@@ -6,14 +6,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
 
-// Using a hardcoded basePath for manifest and other static assets
-// to ensure they resolve correctly on GitHub Pages.
-const basePath = '/Alamal';
-
-// Base metadata without the manifest link.
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
+  manifest: '/manifest.json', // Next.js will handle the base path
 };
 
 const cairo = Cairo({
@@ -38,14 +34,12 @@ export default function RootLayout({
           <meta name="apple-mobile-web-app-title" content="نبض الملاعب" />
           
           {/* Theme color for browsers */}
-          <meta name="theme-color" content="#000000" />
+          <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+          <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
           
-          {/* Static link to the manifest file, using the hardcoded basePath */}
-          <link rel="manifest" href={`${basePath}/manifest.json`} />
-
-          {/* Optional: Apple touch icons */}
-          <link rel="apple-touch-icon" href={`${basePath}/icon-192x192.png`} />
-
+          {/* Link tags that are now correctly handled by basePath */}
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider
