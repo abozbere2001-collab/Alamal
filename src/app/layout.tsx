@@ -29,6 +29,9 @@ export default function RootLayout({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0" />
           
+          {/* PWA specific meta tags for Android/Chrome */}
+          <meta name="mobile-web-app-capable" content="yes" />
+
           {/* PWA specific meta tags for Apple devices */}
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
