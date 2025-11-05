@@ -31,6 +31,8 @@ jobs:
         run: npm install
 
       - name: Build project
+        env:
+          NEXT_PUBLIC_API_FOOTBALL_KEY: ${{ secrets.NEXT_PUBLIC_API_FOOTBALL_KEY }}
         run: npm run build
 
       - name: Upload artifact
