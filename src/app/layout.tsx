@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
+import { PwaInstaller } from '@/components/PwaInstaller';
 
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
@@ -52,6 +53,7 @@ export default function RootLayout({
                   {children}
               </FirebaseClientProvider>
               <Toaster />
+              <PwaInstaller />
             </ThemeProvider>
         </body>
     </html>
