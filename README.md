@@ -26,3 +26,23 @@
 # Goal Stack
 
 تطبيق ويب تقدمي (PWA) لعرض نتائج مباريات كرة القدم.
+
+```
+/
+|-- public/
+|   |-- icons/
+|   |   |-- icon-192x192.png
+|   |   |-- icon-512x512.png
+|   |-- screenshots/
+|   |   |-- screenshot-1.png
+|   |   |-- screenshot-2.png
+|   |-- manifest.json
+|   |-- service-worker.js
+|-- src/
+|   |-- app/
+|   |-- components/
+|   |-- lib/
+|   |-- ...
+|-- next.config.ts
+|-- ...
+```

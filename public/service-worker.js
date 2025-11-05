@@ -1,111 +1,76 @@
-/**
- * Copyright 2018 Google Inc. All Rights Reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// This is a basic service worker for PWA functionality.
 
-// If the loader is already loaded, just stop.
-if (!self.define) {
-  let registry = {};
+const CACHE_NAME = 'nabd-almalaeb-cache-v1';
+const urlsToCache = [
+  '/',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
+  // Add other critical assets you want to cache initially
+];
 
-  // Used for `eval` and `importScripts` where we can't get script URL by other means.
-  // In WVs, we can't use a global variable directly...
-  let firstDefinecall = true;
-  const workaround = (cb) => {
-    // We require a trusted policy created via TrustedTypePolicyFactory as sanctioned by the CSP policy 'trusted-types'.
-    let policy = self.trustedTypes.createPolicy('workoundForPolicy', {
-      createScriptURL: (url) => url,
-    });
-    // @ts-ignore
-    self.workaround = (url, cb) => {
-      // We have to use policy.createScriptURL here because the CSP policy would block the fetch otherwise.
-      // We use the policy here safely as the URL is hardcoded to be the comlink loader.
-      fetch(policy.createScriptURL(url))
-        .then((response) => response.text())
-        .then(cb);
-    };
-    // @ts-ignore
-    workaround(
-      './comlink.4.3.1.min.js',
-      cb
-    );
-  };
-
-  self.define = (deps, factory) => {
-    const name = '';
-    if (registry[name]) {
-      // Module is already loaded, no need to continue.
-      return;
-    }
-    let R = Promise.resolve().then(() => {
-      let exports = {};
-      const module = {
-        uri: location.origin,
-        exports: exports,
-      };
-      return Promise.all(
-        deps.map((dep) => {
-          if (dep === 'exports') {
-            return exports;
-          }
-          if (dep === 'module') {
-            return module;
-          }
-          return null;
-        })
-      ).then((deps) => {
-        const facValue = factory(...deps);
-        if (!exports.default) {
-          exports.default = facValue;
-        }
-        return exports;
-      });
-    });
-    registry[name] = R;
-  };
-}
-define(['./workbox-a5674afe'], function (workbox) { 'use strict';
-
-  /**
-  * Welcome to your Workbox-powered service worker!
-  *
-  * You'll need to register this file in your web app.
-  * See https://goo.gl/yCJYVg
-  *
-  * The rest of the code is auto-generated. Please don't update this file
-  * directly; instead, make changes to your Workbox build configuration
-  * and re-run your build process.
-  * See https://goo.gl/2aRDsh
-  */
-  self.addEventListener('message', e => {
-    if (e.data && e.data.type === 'SKIP_WAITING') {
-      self.skipWaiting();
-    }
-  });
-  workbox.clientsClaim();
-  workbox.registerRoute('/', new workbox.NetworkFirst({
-    "cacheName": "start-url",
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 1,
-      maxAgeSeconds: 86400,
-      purgeOnQuotaError: true
-    })]
-  }), 'GET');
-  workbox.registerRoute(/.*/, new workbox.NetworkFirst({
-    "cacheName": "others",
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 32,
-      maxAgeSeconds: 86400,
-      purgeOnQuotaError: true
-    })]
-  }), 'GET');
-
+self.addEventListener('install', (event) => {
+  // Perform install steps
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
 });
-//# sourceMappingURL=service-worker.js.map
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+
+        // IMPORTANT: Clone the request. A request is a stream and
+        // can only be consumed once. Since we are consuming this
+        // once by cache and once by the browser for fetch, we need
+        // to clone the response.
+        const fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          (response) => {
+            // Check if we received a valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // IMPORTANT: Clone the response. A response is a stream
+            // and because we want the browser to consume the response
+            // as well as the cache consuming the response, we need
+            // to clone it so we have two streams.
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          }
+        );
+      })
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});

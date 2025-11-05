@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'export',
+  // output: 'export', // This line is removed as it's incompatible with server features
   images: { unoptimized: true },
 };
 
