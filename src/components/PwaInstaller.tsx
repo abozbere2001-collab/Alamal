@@ -3,16 +3,15 @@
 
 import { useEffect } from 'react';
 
-const basePath = '/Alamal';
-
 export function PwaInstaller() {
   useEffect(() => {
     if (
       typeof window !== 'undefined' &&
       'serviceWorker' in navigator
     ) {
-      const serviceWorkerUrl = `${basePath}/service-worker.js`;
-      navigator.serviceWorker.register(serviceWorkerUrl)
+      // Use a static path that will be correct on GitHub Pages
+      const serviceWorkerUrl = '/Alamal/service-worker.js';
+      navigator.serviceWorker.register(serviceWorkerUrl, { scope: '/Alamal/' })
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
