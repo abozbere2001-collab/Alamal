@@ -3,6 +3,8 @@
 
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
+  // PWA is disabled in development for faster hot-reloading.
+  // It is automatically enabled in the production build.
   disable: process.env.NODE_ENV === 'development',
   extendDefaultRuntimeCaching: true,
   runtimeCaching: [
