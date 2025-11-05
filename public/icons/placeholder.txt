@@ -1,0 +1,1 @@
+This is a placeholder file to ensure the 'icons' directory is created. You can delete this file and replace it with your app icons (e.g., icon-192x192.png, icon-512x512.png).
