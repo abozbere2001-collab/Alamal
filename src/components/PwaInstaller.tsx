@@ -2,9 +2,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import nextConfig from '../../next.config.js';
 
-const basePath = nextConfig.basePath || '';
+const basePath = '/Alamal';
 
 export function PwaInstaller() {
   useEffect(() => {
