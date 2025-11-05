@@ -37,6 +37,7 @@ export default function RootLayout({
           {/* Theme color for browsers */}
           <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
           <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)" />
+          <meta name="theme-color" content="#000000" />
           
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
