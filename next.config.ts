@@ -2,6 +2,8 @@
 
 const nextConfig = {
   output: 'export',
+  basePath: '/Alamal',
+  assetPrefix: '/Alamal/',
   images: { unoptimized: true },
   devIndicators: {
     allowedDevOrigins: [

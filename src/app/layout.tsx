@@ -35,8 +35,6 @@ export default function RootLayout({
           <meta name="apple-mobile-web-app-title" content="نبض الملاعب" />
           
           {/* Theme color for browsers */}
-          <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-          <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)" />
           <meta name="theme-color" content="#000000" />
           
           <link rel="manifest" href="/manifest.json" />
