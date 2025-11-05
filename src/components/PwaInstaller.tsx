@@ -2,6 +2,9 @@
 'use client';
 
 import { useEffect } from 'react';
+import nextConfig from '../../next.config.js';
+
+const basePath = nextConfig.basePath || '';
 
 export function PwaInstaller() {
   useEffect(() => {
@@ -9,7 +12,8 @@ export function PwaInstaller() {
       typeof window !== 'undefined' &&
       'serviceWorker' in navigator
     ) {
-      navigator.serviceWorker.register('/Alamal/service-worker.js')
+      const serviceWorkerUrl = `${basePath}/service-worker.js`;
+      navigator.serviceWorker.register(serviceWorkerUrl)
         .then(registration => {
           console.log('Service Worker registered with scope:', registration.scope);
         })
