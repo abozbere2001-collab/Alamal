@@ -6,7 +6,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
 
-const basePath = process.env.NODE_ENV === 'production' ? '/Alamal' : '';
+// The basePath is now hardcoded in the manifest link to ensure correctness on GitHub Pages.
+const basePath = '/Alamal';
 
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
@@ -33,6 +34,7 @@ export default function RootLayout({
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
           <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000" />
           <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FFFFFF" />
+          <link rel="manifest" href={`${basePath}/manifest.webmanifest`} />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider

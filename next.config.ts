@@ -1,14 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-const isProd = process.env.NODE_ENV === 'production';
-const repoName = 'Alamal';
-const basePath = isProd ? `/${repoName}` : '';
-
 const nextConfig = {
   output: 'export',
+  // basePath and assetPrefix are removed as they can cause conflicts with GitHub Pages deployment in some cases.
+  // The manifest path will be handled absolutely in layout.tsx.
   images: { unoptimized: true },
-  basePath: basePath,
-  assetPrefix: basePath,
   devIndicators: {
     allowedDevOrigins: [
         '*.cloudworkstations.dev',
