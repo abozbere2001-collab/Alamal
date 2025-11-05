@@ -29,7 +29,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
     skipWaiting: true,
   },
   register: true,
-  display: 'fullscreen',
+  display: 'standalone',
 });
 
 const isProd = process.env.NODE_ENV === 'production';
