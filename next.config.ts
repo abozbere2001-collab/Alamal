@@ -1,11 +1,21 @@
 
 /** @type {import('next').NextConfig} */
 
+const isProd = process.env.NODE_ENV === 'production';
+const repoName = 'Alamal';
+const basePath = isProd ? `/${repoName}` : '';
+
 const withPWA = require('@ducanh2912/next-pwa').default({
   dest: 'public',
-  // PWA is disabled in development for faster hot-reloading.
-  // It is automatically enabled in the production build.
   disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  display: 'fullscreen',
+  scope: basePath,
+  start_url: `${basePath}/`,
+  theme_color: '#000000',
+  background_color: '#000000',
+  cacheOnFrontEndNav: true,
   extendDefaultRuntimeCaching: true,
   runtimeCaching: [
     {
@@ -23,25 +33,13 @@ const withPWA = require('@ducanh2912/next-pwa').default({
       },
     },
   ],
-  fallbacks: {
-    //image: "/static/images/fallback.png",
-    //font: "/static/fonts/fallback.woff2",
-  },
-  workboxOptions: {
-    skipWaiting: true,
-  },
-  register: true,
-  display: 'fullscreen', // Use fullscreen for a completely immersive experience
 });
-
-const isProd = process.env.NODE_ENV === 'production';
-const repoName = 'Alamal';
 
 const nextConfig = {
   output: 'export',
   images: { unoptimized: true },
-  basePath: isProd ? `/${repoName}` : '',
-  assetPrefix: isProd ? `/${repoName}/` : '',
+  basePath: basePath,
+  assetPrefix: basePath,
   devIndicators: {
     allowedDevOrigins: [
         '*.cloudworkstations.dev',

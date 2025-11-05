@@ -1,5 +1,4 @@
 
-
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
@@ -12,7 +11,7 @@ const basePath = process.env.NODE_ENV === 'production' ? '/Alamal' : '';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: `${basePath}/manifest.json`,
+  manifest: `${basePath}/manifest.webmanifest`,
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -35,13 +34,6 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" suppressHydrationWarning className="h-full">
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0" />
-          <meta name="theme-color" content="#000000" />
-          <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-          <meta name="apple-mobile-web-app-title" content="نبض الملاعب" />
-          <link rel="manifest" href={`${basePath}/manifest.json`} />
-          <link rel="apple-touch-icon" href={`${basePath}/icons/icon-192x192.png`} />
-          <link rel="icon" type="image/png" sizes="192x192" href={`${basePath}/icons/icon-192x192.png`} />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider
