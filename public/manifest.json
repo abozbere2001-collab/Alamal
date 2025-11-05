@@ -1,6 +1,7 @@
 {
   "name": "نبض الملاعب",
   "short_name": "نبض الملاعب",
+  "id": "/Alamal/",
   "description": "عالم كرة القدم بين يديك",
   "start_url": "/Alamal/",
   "display": "standalone",
@@ -19,6 +20,20 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot1.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshots/screenshot2.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }
