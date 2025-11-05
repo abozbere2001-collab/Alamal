@@ -9,10 +9,6 @@ import { FirebaseProvider } from './provider';
 import { Loader2 } from 'lucide-react';
 import { NabdAlMalaebLogo } from '@/components/icons/NabdAlMalaebLogo';
 
-interface FirebaseClientProviderProps {
-  children: ReactNode;
-}
-
 const firebaseConfig: FirebaseOptions = {
   apiKey: "AIzaSyDKQK4mfCGlSCwJS7oOdMhJa0SIJAv3nXM",
   authDomain: "nabd-d71ab.firebaseapp.com",
@@ -23,11 +19,10 @@ const firebaseConfig: FirebaseOptions = {
   measurementId: "G-X5SY2K798F"
 };
 
-interface FirebaseServices {
-    firebaseApp: FirebaseApp;
-    auth: Auth;
-    firestore: Firestore;
-}
+// Initialize Firebase immediately.
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+const auth = getAuth(app);
+const firestore = getFirestore(app);
 
 const LoadingSplashScreen = () => (
     <div className="flex flex-col items-center justify-center h-full bg-background text-center">
@@ -38,27 +33,14 @@ const LoadingSplashScreen = () => (
 );
 
 
-export function FirebaseClientProvider({ children }: FirebaseClientProviderProps) {
-  const [services, setServices] = useState<FirebaseServices | null>(null);
-
-  useEffect(() => {
-    // This effect runs only once on the client
-    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-    const auth = getAuth(app);
-    const firestore = getFirestore(app);
-    
-    setServices({ firebaseApp: app, auth, firestore });
-  }, []);
-
-  if (!services) {
-    return <LoadingSplashScreen />;
-  }
-
+export function FirebaseClientProvider({ children }: { children: ReactNode; }) {
+  // The provider's only job is now to pass the already-initialized services
+  // down and manage the auth state listener.
   return (
     <FirebaseProvider
-      firebaseApp={services.firebaseApp}
-      auth={services.auth}
-      firestore={services.firestore}
+      firebaseApp={app}
+      auth={auth}
+      firestore={firestore}
     >
       {children}
     </FirebaseProvider>
