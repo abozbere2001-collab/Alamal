@@ -6,12 +6,14 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Cairo } from 'next/font/google';
 import { FirebaseClientProvider } from '@/firebase';
 
+// Using a hardcoded basePath for manifest and other static assets
+// to ensure they resolve correctly on GitHub Pages.
 const basePath = '/Alamal';
 
+// Base metadata without the manifest link.
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: `${basePath}/manifest.json`,
 };
 
 const cairo = Cairo({
@@ -29,10 +31,21 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" suppressHydrationWarning className="h-full">
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0" />
+          
+          {/* PWA specific meta tags for Apple devices */}
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          <meta name="apple-mobile-web-app-title" content="نبض الملاعب" />
+          
+          {/* Theme color for browsers */}
           <meta name="theme-color" content="#000000" />
+          
+          {/* Static link to the manifest file, using the hardcoded basePath */}
           <link rel="manifest" href={`${basePath}/manifest.json`} />
+
+          {/* Optional: Apple touch icons */}
+          <link rel="apple-touch-icon" href={`${basePath}/icon-192x192.png`} />
+
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
             <ThemeProvider

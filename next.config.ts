@@ -2,7 +2,7 @@
 
 const nextConfig = {
   output: 'export',
-  // basePath and assetPrefix are removed as they can cause conflicts with GitHub Pages deployment in some cases.
+  // basePath and assetPrefix are removed as they conflict with manual path handling for GH pages.
   // The manifest path will be handled absolutely in layout.tsx.
   images: { unoptimized: true },
   devIndicators: {

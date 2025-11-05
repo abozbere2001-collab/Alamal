@@ -1,17 +1,15 @@
-
 {
   "short_name": "نبض الملاعب",
   "name": "نبض الملاعب - عالم كرة القدم بين يديك",
-  "description": "تطبيق ويب تقدمي (PWA) يعرض نتائج المباريات لحظة بلحظة، مصمم خصيصًا لعشاق كرة القدم في العالم العربي.",
   "icons": [
     {
-      "src": "/Alamal/icons/icon-192x192.png",
+      "src": "/Alamal/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Alamal/icons/icon-512x512.png",
+      "src": "/Alamal/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -20,5 +18,6 @@
   "start_url": "/Alamal/",
   "display": "fullscreen",
   "theme_color": "#000000",
-  "background_color": "#000000"
+  "background_color": "#000000",
+  "description": "تطبيق ويب تقدمي (PWA) يعرض نتائج المباريات لحظة بلحظة، مصمم خصيصًا لعشاق كرة القدم في العالم العربي."
 }
