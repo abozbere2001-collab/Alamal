@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  assetPrefix: '/Alamal/',
   output: 'export',
+  assetPrefix: '/Alamal',
+  basePath: '/Alamal',
   images: { unoptimized: true },
   devIndicators: {
     allowedDevOrigins: [

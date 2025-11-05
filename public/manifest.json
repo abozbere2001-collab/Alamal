@@ -5,10 +5,10 @@
   "theme_color": "#000000",
   "background_color": "#000000",
   "display": "fullscreen",
+  "orientation": "portrait",
   "scope": "/Alamal/",
   "start_url": "/Alamal/",
   "id": "/Alamal/",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/Alamal/icons/icon-192x192.png",
@@ -24,8 +24,8 @@
   "screenshots": [
     {
       "src": "/Alamal/icons/icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }
