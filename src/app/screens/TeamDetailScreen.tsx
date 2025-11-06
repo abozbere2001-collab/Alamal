@@ -261,7 +261,7 @@ const TeamDetailsTabs = ({ teamId, leagueId, navigate, onPinToggle, pinnedPredic
             league: { ...fixture.league, name: getDisplayName('league', fixture.league.id, fixture.league.name) },
             teams: {
                 home: { ...fixture.teams.home, name: getDisplayName('team', fixture.teams.home.id, fixture.teams.home.name) },
-                away: { ...fixture.teams.away, name: getDisplayName('team', fixture.teams.away.id, fixture.teams.away.name) },
+                away: { ...fixture.teams.away, name: getDisplayName('team', fixture.teams.away.name, fixture.teams.away.name) },
             }
         }));
 
@@ -465,8 +465,7 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
                         const teamInfo = data.response[0];
                         setTeamData(teamInfo);
                     } else {
-                        // This team ID might be old or invalid.
-                        setTeamData(null); // Set to null to indicate team not found
+                        setTeamData(null);
                     }
                 }
             } catch (error) {
@@ -625,3 +624,5 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
         </div>
     );
 }
+
+    
