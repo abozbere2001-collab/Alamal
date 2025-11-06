@@ -1,19 +1,20 @@
-// This is a basic service worker for PWA functionality.
-// It provides offline caching capabilities.
+// A basic service worker for caching assets
 
 const CACHE_NAME = 'nabd-almalaeb-cache-v1';
 const urlsToCache = [
   '/',
-  '/manifest.json'
-  // Add other critical assets here, like main JS/CSS files if needed.
-  // The build process might handle this automatically.
+  '/index.html',
+  // Add other important assets here that you want to cache
+  // For example: '/styles/main.css', '/scripts/main.js'
+  // Note: Next.js handles most of this automatically, but for a standalone PWA,
+  // you might want to cache specific assets.
 ];
 
 self.addEventListener('install', event => {
   // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(function(cache) {
+      .then(cache => {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
@@ -23,15 +24,41 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
-      .then(function(response) {
+      .then(response => {
         // Cache hit - return response
         if (response) {
           return response;
         }
-        return fetch(event.request);
-      }
-    )
-  );
+
+        // IMPORTANT: Clone the request. A request is a stream and
+        // can only be consumed once. Since we are consuming this
+        // once by cache and once by the browser for fetch, we need
+        // to clone the response.
+        const fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          response => {
+            // Check if we received a valid response
+            if(!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // IMPORTANT: Clone the response. A response is a stream
+            // and because we want the browser to consume the response
+            // as well as the cache consuming the response, we need
+            // to clone it so we have two streams.
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          }
+        );
+      })
+    );
 });
 
 self.addEventListener('activate', event => {
