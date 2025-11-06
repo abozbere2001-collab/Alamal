@@ -1,42 +1,33 @@
 {
   "name": "نبض الملاعب",
   "short_name": "نبض الملاعب",
-  "description": "تطبيقك الأول لمتابعة نتائج وأخبار كرة القدم لحظة بلحظة.",
-  "lang": "ar",
+  "description": "عالم كرة القدم بين يديك. نتائج مباشرة، أخبار، وإحصائيات.",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#000000",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ],
   "screenshots": [
     {
       "src": "/screenshots/screenshot-1.png",
       "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "شاشة المباريات المباشرة"
+      "type": "image/png"
     },
     {
       "src": "/screenshots/screenshot-2.png",
       "sizes": "1080x1920",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "شاشة تفاصيل البطولة"
+      "type": "image/png"
     }
-  ],
-  "id": "/?source=pwa",
-  "orientation": "portrait-primary"
+  ]
 }
