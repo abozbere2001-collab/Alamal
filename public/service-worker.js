@@ -1,7 +1,8 @@
+
 const CACHE_NAME = 'nabd-almalaeb-cache-v1';
 const urlsToCache = [
   '/',
-  '/manifest.json',
+  '/manifest.webmanifest',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png'
 ];

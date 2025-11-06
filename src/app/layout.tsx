@@ -51,7 +51,7 @@ export default function RootLayout({
                   {children}
               </FirebaseClientProvider>
               <Toaster />
-              {/* <PwaInstaller /> */}
+              <PwaInstaller />
             </ThemeProvider>
         </body>
     </html>
