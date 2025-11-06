@@ -10,7 +10,7 @@ import { PwaInstaller } from '@/components/PwaInstaller';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: '/manifest.json',
+  manifest: '/manifest.webmanifest',
 };
 
 const cairo = Cairo({
@@ -38,7 +38,6 @@ export default function RootLayout({
           {/* Theme color for browsers */}
           <meta name="theme-color" content="#000000" />
           
-          <link rel="manifest" href="/manifest.json" /> 
           <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         </head>
         <body className={`${cairo.variable} font-body antialiased h-full`}>
@@ -52,7 +51,7 @@ export default function RootLayout({
                   {children}
               </FirebaseClientProvider>
               <Toaster />
-              <PwaInstaller />
+              {/* <PwaInstaller /> */}
             </ThemeProvider>
         </body>
     </html>
