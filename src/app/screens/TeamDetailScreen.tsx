@@ -261,7 +261,7 @@ const TeamDetailsTabs = ({ teamId, leagueId, navigate, onPinToggle, pinnedPredic
             league: { ...fixture.league, name: getDisplayName('league', fixture.league.id, fixture.league.name) },
             teams: {
                 home: { ...fixture.teams.home, name: getDisplayName('team', fixture.teams.home.id, fixture.teams.home.name) },
-                away: { ...fixture.teams.away, name: getDisplayName('team', fixture.teams.away.name, fixture.teams.away.name) },
+                away: { ...fixture.teams.away, name: getDisplayName('team', fixture.teams.away.id, fixture.teams.away.name) },
             }
         }));
 
@@ -457,6 +457,7 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
                         'x-rapidapi-key': API_KEY || '',
                     },
                 });
+                if (!isMounted) return;
                 if (!teamRes.ok) throw new Error("Team API fetch failed");
                 
                 const data = await teamRes.json();
@@ -466,13 +467,14 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
                         setTeamData(teamInfo);
                     } else {
                         setTeamData(null);
+                        throw new Error("Team not found in API response");
                     }
                 }
-            } catch (error) {
-                console.error("Error fetching team info:", error);
+            } catch (error: any) {
+                console.error("Error fetching team info:", error.message);
                 if (isMounted) {
-                    toast({ variant: 'destructive', title: 'خطأ', description: 'فشل في تحميل بيانات الفريق.' });
-                    setTeamData(null);
+                    toast({ variant: 'destructive', title: 'خطأ', description: error.message || 'فشل في تحميل بيانات الفريق.' });
+                    setTeamData(null); // Explicitly set to null on error
                 }
             } finally {
                 if (isMounted) setLoading(false);
@@ -624,5 +626,7 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
         </div>
     );
 }
+
+    
 
     
