@@ -441,7 +441,10 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
     const [activeTab, setActiveTab] = useState('details');
 
     useEffect(() => {
-        if (!teamId) return;
+        if (!teamId) {
+            setLoading(false);
+            return;
+        }
         let isMounted = true;
         let predictionsUnsub: (() => void) | null = null;
 
@@ -458,16 +461,20 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
                 
                 const data = await teamRes.json();
                 if (isMounted) {
-                    if (data.response?.[0]) {
+                    if (data.response && data.response.length > 0) {
                         const teamInfo = data.response[0];
                         setTeamData(teamInfo);
                     } else {
-                         throw new Error("Team not found in API response");
+                        // This team ID might be old or invalid.
+                        setTeamData(null); // Set to null to indicate team not found
                     }
                 }
             } catch (error) {
                 console.error("Error fetching team info:", error);
-                if (isMounted) toast({ variant: 'destructive', title: 'خطأ', description: 'فشل في تحميل بيانات الفريق.' });
+                if (isMounted) {
+                    toast({ variant: 'destructive', title: 'خطأ', description: 'فشل في تحميل بيانات الفريق.' });
+                    setTeamData(null);
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -541,7 +548,7 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
     }, [customNames]);
 
 
-    if(loading || !teamData || !favorites || !customNames) {
+    if(loading || !favorites || !customNames) {
         return (
             <div className="flex h-full flex-col bg-background">
                 <ScreenHeader title="جاري التحميل..." onBack={goBack} canGoBack={canGoBack} />
@@ -551,6 +558,28 @@ export function TeamDetailScreen({ navigate, goBack, canGoBack, teamId, leagueId
                     <div className="mt-4 p-4">
                         <Skeleton className="h-64 w-full" />
                     </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!teamData) {
+        return (
+            <div className="flex flex-col bg-background h-full">
+                <ScreenHeader 
+                    title={"خطأ"}
+                    onBack={goBack} 
+                    canGoBack={canGoBack} 
+                />
+                 <div className="flex-1 flex items-center justify-center p-4">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>لم يتم العثور على الفريق</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">قد يكون هذا الفريق لم يعد موجودًا أو أن المعرف الخاص به قد تغير.</p>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         );
