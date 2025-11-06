@@ -10,7 +10,7 @@ import { PwaInstaller } from '@/components/PwaInstaller';
 export const metadata: Metadata = {
   title: 'نبض الملاعب',
   description: 'عالم كرة القدم بين يديك',
-  manifest: '/manifest.json', // Updated path
+  manifest: '/manifest.json',
 };
 
 const cairo = Cairo({
